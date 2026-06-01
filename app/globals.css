@@ -1,0 +1,90 @@
+@import "tailwindcss";
+
+/* ── Nanit Brand Fonts ─────────────────────────────────────────────── */
+
+@font-face {
+  font-family: 'Cotford';
+  src: url('/fonts/CotfordVar.ttf') format('truetype');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Cotford';
+  src: url('/fonts/CotfordVar-Italic.ttf') format('truetype');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'BentonSans';
+  src: url('/fonts/BentonSans-Regular.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'BentonSans';
+  src: url('/fonts/BentonSansPro-Medium.otf') format('opentype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'BentonSans';
+  src: url('/fonts/BentonSansPro-Bold.otf') format('opentype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'NeuePlak';
+  src: url('/fonts/NeuePlak-Light.otf') format('opentype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'NeuePlak';
+  src: url('/fonts/NeuePlak-Regular.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'NeuePlak';
+  src: url('/fonts/NeuePlak-SemiBold.otf') format('opentype');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ── Nanit Brand Colours ───────────────────────────────────────────── */
+
+:root {
+  --bed-time-blue:  #111D41;   /* darkest navy — nav, dark backgrounds */
+  --midnight-mist:  #204977;   /* dark blue — headings, labels */
+  --lullaby-blue:   #6681AB;   /* medium blue — buttons, accents */
+  --soft-blue:      #BDD4E7;   /* light blue — callouts, light bg */
+  --peach-clouds:   #EDB39A;   /* warm peach — accents, badges */
+  --diaper-cream:   #F3E8E0;   /* warm cream — card backgrounds */
+  --morning-milk:   #FAF7F3;   /* near white — page background */
+  --little-lemon:   #FAE8B8;   /* soft yellow — secondary accent */
+  --golden-glow:    #EFC973;   /* golden — tertiary */
+  --sunset-glow:    #D88C56;   /* terracotta — tertiary */
+}
+
+/* ── Base ──────────────────────────────────────────────────────────── */
+
+body {
+  font-family: 'BentonSans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  background: var(--morning-milk);
+  color: var(--bed-time-blue);
+}

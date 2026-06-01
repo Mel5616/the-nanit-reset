@@ -170,7 +170,7 @@ export default function DoorPage() {
             <div
               key={g.id}
               className={`bg-white rounded-2xl px-4 py-4 flex items-center gap-4 shadow-sm transition-all ${g.checked_in ? 'opacity-55' : ''} ${justCheckedIn ? 'ring-2' : ''}`}
-              style={justCheckedIn ? { ringColor: '#059669' } : undefined}
+              style={justCheckedIn ? { outline: '2px solid #059669', outlineOffset: '2px' } : undefined}
             >
               {/* Colour dot */}
               <div className="w-3 h-3 rounded-full shrink-0" style={{ background: color }} />

@@ -194,7 +194,7 @@ export default function EventPlanning() {
                   <span className="text-xs font-semibold text-gray-400 whitespace-nowrap">{time}</span>
                 </div>
                 <div className="relative pl-6">
-                  <div className="absolute left-0 top-1.5 w-2.5 h-2.5 rounded-full border-2 border-white ring-2" style={{ background: BLUE, ringColor: BLUE }} />
+                  <div className="absolute left-0 top-1.5 w-2.5 h-2.5 rounded-full border-2 border-white" style={{ background: BLUE, outline: `2px solid ${BLUE}`, outlineOffset: '2px' }} />
                   <p className="text-sm font-semibold text-gray-900 mb-0.5">{activity}</p>
                   {detail && <p className="text-sm text-gray-500 leading-relaxed">{detail}</p>}
                 </div>

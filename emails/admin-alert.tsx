@@ -23,14 +23,14 @@ export default function AdminAlertEmail({ guest, action }: { guest: Guest; actio
                 The Nanit Reset · {new Date().toLocaleDateString('en-AU', { day: 'numeric', month: 'long', year: 'numeric' })}
               </Text>
               <Hr style={{ borderColor: '#E5E7EB', margin: '0 0 24px' }} />
-              {[
+              {([
                 ['Audience', audienceLabels[guest.audience_type]],
                 ['Company', guest.company || guest.instagram_handle || '—'],
                 ['Email', guest.email],
                 guest.dietary_requirements ? ['Dietary', guest.dietary_requirements] : null,
                 guest.goody_bag ? ['Goody bag', guest.goody_bag] : null,
                 guest.speaker_session ? ['Speaker session', 'One-on-one with Dr Natalie'] : null,
-              ].filter(Boolean).map(([label, value]) => (
+              ].filter((x): x is string[] => x !== null)).map(([label, value]) => (
                 <Section key={label as string} style={{ marginBottom: '12px', display: 'flex' }}>
                   <Text style={{ color: '#9CA3AF', fontSize: '11px', textTransform: 'uppercase', letterSpacing: '1px', margin: '0 0 2px' }}>{label}</Text>
                   <Text style={{ color: NAVY, fontSize: '14px', margin: 0 }}>{value}</Text>

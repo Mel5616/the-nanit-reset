@@ -6,6 +6,7 @@ import RsvpConfirmedEmail from './rsvp-confirmed'
 import RsvpDeclinedEmail from './rsvp-declined'
 import AdminInviteEmail from './admin-invite'
 import PasswordResetEmail from './password-reset'
+import SpeakerInviteEmail from './speaker-invite'
 
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || ''
 
@@ -15,6 +16,14 @@ export async function renderAdminInvite(opts: { name: string | null; role: strin
 
 export async function renderPasswordReset(opts: { name: string | null; resetUrl: string }): Promise<string> {
   return render(createElement(PasswordResetEmail, opts))
+}
+
+export async function renderSpeakerInvite(opts: {
+  displayName: string; firstName: string; organization: string | null
+  personalizedWhy: string | null; involvedAs: string | null
+  letterUrl: string; acceptUrl: string; declineUrl: string
+}): Promise<string> {
+  return render(createElement(SpeakerInviteEmail, opts))
 }
 
 export async function renderInvitation(guest: Guest, inviteBaseUrl: string): Promise<string> {

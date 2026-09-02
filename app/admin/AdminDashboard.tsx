@@ -11,6 +11,7 @@ import Budget from './Budget'
 import InfluencerTracking from './InfluencerTracking'
 import WrapReport from './WrapReport'
 import Vendors from './Vendors'
+import Speakers from './Speakers'
 
 const NAVY = '#111D41'
 const BLUE = '#6681AB'
@@ -51,7 +52,7 @@ export default function AdminDashboard({
   currentAdmin: { id: string | null; email: string | null; name: string | null; role: 'owner' | 'manager' | 'viewer' | 'door' }
 }) {
   const router = useRouter()
-  const [tab, setTab] = useState<'guests' | 'send' | 'comms' | 'influencer' | 'vendors' | 'planning' | 'goody' | 'budget' | 'wrap'>('guests')
+  const [tab, setTab] = useState<'guests' | 'send' | 'comms' | 'influencer' | 'speakers' | 'vendors' | 'planning' | 'goody' | 'budget' | 'wrap'>('guests')
   const [filterStatus, setFilterStatus] = useState<GuestStatus | 'all'>('all')
   const [filterAudience, setFilterAudience] = useState<AudienceType | 'all'>('all')
   const [selected, setSelected] = useState<Set<string>>(new Set())
@@ -198,6 +199,7 @@ export default function AdminDashboard({
             ['send', `Send (${uninvited.length})`],
             ['comms', 'Comms'],
             ['influencer', 'Creators'],
+            ['speakers', 'Speakers'],
             ['vendors', 'Vendors'],
             ['planning', 'Planning'],
             ['goody', 'Goody bags'],
@@ -283,6 +285,7 @@ export default function AdminDashboard({
 
         {tab === 'comms' && <Communications guests={guests} />}
         {tab === 'influencer' && <InfluencerTracking guests={guests} />}
+        {tab === 'speakers' && <Speakers />}
         {tab === 'vendors' && <Vendors />}
         {tab === 'planning' && <EventPlanning />}
         {tab === 'goody' && <GoodyBags />}

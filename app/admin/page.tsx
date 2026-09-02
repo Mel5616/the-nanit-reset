@@ -1,5 +1,5 @@
 import { redirect } from 'next/navigation'
-import { isAdminAuthenticated } from '@/lib/auth'
+import { getCurrentAdmin } from '@/lib/auth'
 import { getServiceClient, Guest } from '@/lib/supabase'
 import { audienceLabels, capacityTargets, TOTAL_CAPACITY } from '@/lib/invite-content'
 import { AudienceType } from '@/lib/supabase'
@@ -14,7 +14,8 @@ async function getGuests(): Promise<Guest[]> {
 }
 
 export default async function AdminPage() {
-  if (!(await isAdminAuthenticated())) {
+  const admin = await getCurrentAdmin()
+  if (!admin) {
     redirect('/admin/login')
   }
 
@@ -33,5 +34,5 @@ export default async function AdminPage() {
     return acc
   }, {} as Record<AudienceType, Guest[]>)
 
-  return <AdminDashboard guests={guests} stats={stats} byAudience={byAudience} capacityTargets={capacityTargets} audienceLabels={audienceLabels} />
+  return <AdminDashboard guests={guests} stats={stats} byAudience={byAudience} capacityTargets={capacityTargets} audienceLabels={audienceLabels} currentAdmin={admin} />
 }

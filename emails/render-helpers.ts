@@ -4,8 +4,18 @@ import { Guest } from '@/lib/supabase'
 import InvitationEmail from './invitation'
 import RsvpConfirmedEmail from './rsvp-confirmed'
 import RsvpDeclinedEmail from './rsvp-declined'
+import AdminInviteEmail from './admin-invite'
+import PasswordResetEmail from './password-reset'
 
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || ''
+
+export async function renderAdminInvite(opts: { name: string | null; role: string; acceptUrl: string; invitedBy: string | null }): Promise<string> {
+  return render(createElement(AdminInviteEmail, opts))
+}
+
+export async function renderPasswordReset(opts: { name: string | null; resetUrl: string }): Promise<string> {
+  return render(createElement(PasswordResetEmail, opts))
+}
 
 export async function renderInvitation(guest: Guest, inviteBaseUrl: string): Promise<string> {
   return render(createElement(InvitationEmail, { guest, baseUrl: inviteBaseUrl }))

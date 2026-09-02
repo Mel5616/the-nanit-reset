@@ -41,13 +41,14 @@ function StatusBadge({ status }: { status: GuestStatus }) {
 }
 
 export default function AdminDashboard({
-  guests, stats, byAudience, capacityTargets, audienceLabels,
+  guests, stats, byAudience, capacityTargets, audienceLabels, currentAdmin,
 }: {
   guests: Guest[]
   stats: { total: number; invited: number; confirmed: number; remaining: number }
   byAudience: Record<AudienceType, Guest[]>
   capacityTargets: Record<AudienceType, number>
   audienceLabels: Record<AudienceType, string>
+  currentAdmin: { id: string | null; email: string | null; name: string | null; role: 'owner' | 'manager' | 'viewer' | 'door' }
 }) {
   const router = useRouter()
   const [tab, setTab] = useState<'guests' | 'send' | 'comms' | 'influencer' | 'vendors' | 'planning' | 'goody' | 'budget' | 'wrap'>('guests')
@@ -137,7 +138,18 @@ export default function AdminDashboard({
             className="px-4 py-2 rounded-full text-white/70 text-sm border border-white/20 hover:border-white/40">
             Export CSV
           </a>
-          <button onClick={logout} className="text-white/40 text-sm hover:text-white/70">Logout</button>
+          {currentAdmin.role === 'owner' && (
+            <Link href="/admin/team"
+              className="px-4 py-2 rounded-full text-white text-sm border border-white/20 hover:border-white/40">
+              👥 Team
+            </Link>
+          )}
+          <div className="flex items-center gap-2">
+            {currentAdmin.name && (
+              <span className="hidden md:inline text-white/50 text-sm">{currentAdmin.name}</span>
+            )}
+            <button onClick={logout} className="text-white/40 text-sm hover:text-white/70">Logout</button>
+          </div>
         </div>
       </header>
 

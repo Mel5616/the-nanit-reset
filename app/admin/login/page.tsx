@@ -2,8 +2,10 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import Link from 'next/link'
 
 export default function LoginPage() {
+  const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
@@ -16,15 +18,22 @@ export default function LoginPage() {
     const res = await fetch('/api/admin/login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ password }),
+      body: JSON.stringify({ email: email.trim() || undefined, password }),
     })
     if (res.ok) {
       router.push('/admin')
       router.refresh()
     } else {
-      setError('Incorrect password.')
+      const data = await res.json().catch(() => ({}))
+      setError(data.error || 'Incorrect email or password.')
       setLoading(false)
     }
+  }
+
+  const inputStyle = {
+    background: 'rgba(255,255,255,0.08)',
+    border: '1px solid rgba(255,255,255,0.12)',
+    fontFamily: 'BentonSans, sans-serif',
   }
 
   return (
@@ -37,12 +46,22 @@ export default function LoginPage() {
         </h1>
         <form onSubmit={handleSubmit} className="space-y-4">
           <input
+            type="email"
+            value={email}
+            onChange={e => setEmail(e.target.value)}
+            placeholder="Email (team members)"
+            autoComplete="username"
+            className="w-full px-4 py-3 rounded-xl text-white placeholder-white/30 text-sm outline-none"
+            style={inputStyle}
+          />
+          <input
             type="password"
             value={password}
             onChange={e => setPassword(e.target.value)}
             placeholder="Password"
+            autoComplete="current-password"
             className="w-full px-4 py-3 rounded-xl text-white placeholder-white/30 text-sm outline-none"
-            style={{ background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.12)', fontFamily: 'BentonSans, sans-serif' }}
+            style={inputStyle}
             autoFocus
           />
           {error && <p className="text-sm" style={{ color: '#EDB39A' }}>{error}</p>}
@@ -55,6 +74,11 @@ export default function LoginPage() {
             {loading ? 'Checking…' : 'Enter'}
           </button>
         </form>
+        <p className="text-center mt-6">
+          <Link href="/admin/forgot-password" className="text-white/40 text-xs hover:text-white/70">
+            Forgot your password?
+          </Link>
+        </p>
       </div>
     </main>
   )

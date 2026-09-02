@@ -7,6 +7,8 @@ import RsvpDeclinedEmail from './rsvp-declined'
 import AdminInviteEmail from './admin-invite'
 import PasswordResetEmail from './password-reset'
 import SpeakerInviteEmail from './speaker-invite'
+import GiveawayConfirmedEmail from './giveaway-confirmed'
+import SurveyInviteEmail from './survey-invite'
 
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || ''
 
@@ -24,6 +26,14 @@ export async function renderSpeakerInvite(opts: {
   letterUrl: string; acceptUrl: string; declineUrl: string
 }): Promise<string> {
   return render(createElement(SpeakerInviteEmail, opts))
+}
+
+export async function renderGiveawayConfirmed(firstName: string): Promise<string> {
+  return render(createElement(GiveawayConfirmedEmail, { firstName }))
+}
+
+export async function renderSurveyInvite(opts: { firstName: string; surveyUrl: string; attended: boolean }): Promise<string> {
+  return render(createElement(SurveyInviteEmail, opts))
 }
 
 export async function renderInvitation(guest: Guest, inviteBaseUrl: string): Promise<string> {

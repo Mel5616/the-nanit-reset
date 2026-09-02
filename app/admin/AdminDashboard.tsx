@@ -12,6 +12,9 @@ import InfluencerTracking from './InfluencerTracking'
 import WrapReport from './WrapReport'
 import Vendors from './Vendors'
 import Speakers from './Speakers'
+import Giveaway from './Giveaway'
+import Feedback from './Feedback'
+import Referrals from './Referrals'
 
 const NAVY = '#111D41'
 const BLUE = '#6681AB'
@@ -52,7 +55,7 @@ export default function AdminDashboard({
   currentAdmin: { id: string | null; email: string | null; name: string | null; role: 'owner' | 'manager' | 'viewer' | 'door' }
 }) {
   const router = useRouter()
-  const [tab, setTab] = useState<'guests' | 'send' | 'comms' | 'influencer' | 'speakers' | 'vendors' | 'planning' | 'goody' | 'budget' | 'wrap'>('guests')
+  const [tab, setTab] = useState<'guests' | 'send' | 'comms' | 'influencer' | 'speakers' | 'vendors' | 'planning' | 'goody' | 'budget' | 'giveaway' | 'referrals' | 'feedback' | 'wrap'>('guests')
   const [filterStatus, setFilterStatus] = useState<GuestStatus | 'all'>('all')
   const [filterAudience, setFilterAudience] = useState<AudienceType | 'all'>('all')
   const [selected, setSelected] = useState<Set<string>>(new Set())
@@ -204,6 +207,9 @@ export default function AdminDashboard({
             ['planning', 'Planning'],
             ['goody', 'Goody bags'],
             ['budget', 'Budget'],
+            ['giveaway', 'Giveaway'],
+            ['referrals', 'Referrals'],
+            ['feedback', 'Feedback'],
             ['wrap', 'Wrap report'],
           ] as const).map(([t, label]) => (
             <button key={t} onClick={() => setTab(t)}
@@ -290,6 +296,9 @@ export default function AdminDashboard({
         {tab === 'planning' && <EventPlanning />}
         {tab === 'goody' && <GoodyBags />}
         {tab === 'budget' && <Budget />}
+        {tab === 'giveaway' && <Giveaway />}
+        {tab === 'referrals' && <Referrals />}
+        {tab === 'feedback' && <Feedback />}
         {tab === 'wrap' && <WrapReport guests={guests} />}
 
         {tab === 'send' && (

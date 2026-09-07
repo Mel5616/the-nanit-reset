@@ -58,10 +58,10 @@ const CSS = `
 .nrinv .host-intro{ font-size:var(--x325); letter-spacing:.06em; opacity:.55; margin:0 0 2.5mm; }
 .nrinv .host-name{ font-family:var(--display); font-style:italic; font-weight:200; font-size:clamp(20px,4.7vw,24px); line-height:1.05; letter-spacing:-.01em; color:var(--bedtime); margin:0; }
 .nrinv .host-role{ font-size:var(--x325); line-height:1.5; opacity:.68; margin:2mm 0 0; }
-.nrinv .copy{ max-width:48ch; margin:5mm auto 0; text-align:center; }
+.nrinv .copy{ max-width:48ch; margin:5mm auto 6.5mm; text-align:center; }
 .nrinv .copy p{ font-size:var(--x3); line-height:1.5; text-wrap:pretty; margin:0 0 .9em; }
 .nrinv .copy p:last-child{ margin-bottom:0; }
-.nrinv .details{ margin-top:auto; padding-top:4mm; text-align:center; border-top:1px solid rgba(45,73,119,.22); }
+.nrinv .details{ margin-top:auto; padding-top:6.5mm; text-align:center; border-top:1px solid rgba(45,73,119,.22); }
 .nrinv .det-date{ font-family:var(--display); font-variant-numeric:oldstyle-nums; font-weight:300; font-size:clamp(18px,4.0vw,20px); line-height:1.15; letter-spacing:-.01em; color:var(--bedtime); margin:0; }
 .nrinv .det-line{ font-size:var(--x3); line-height:1.55; margin:2.5mm 0 0; }
 .nrinv .det-venue{ margin-top:2.5mm; }

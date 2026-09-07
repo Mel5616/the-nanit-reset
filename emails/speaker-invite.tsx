@@ -20,7 +20,7 @@ export default function SpeakerInviteEmail({
   return (
     <Html>
       <Head />
-      <Preview>An invitation to speak at {EVENT.name} — {EVENT.dateShort}</Preview>
+      <Preview>An invitation to speak at {EVENT.name}, {EVENT.dateShort}</Preview>
       <Body style={{ backgroundColor: '#FAF7F3', fontFamily: 'Helvetica Neue, Helvetica, Arial, sans-serif', margin: 0, padding: 0 }}>
         <Container style={{ maxWidth: '540px', margin: '0 auto', padding: '40px 24px' }}>
           <div style={{ borderRadius: '16px', overflow: 'hidden', background: '#fff', boxShadow: '0 2px 16px rgba(17,29,65,0.08)' }}>

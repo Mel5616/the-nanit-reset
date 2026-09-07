@@ -27,9 +27,9 @@ const EMAIL_TYPES = [
   {
     id: 'savethedate',
     name: 'Save the date',
-    description: 'Send before formal invitations go out. Announces the date with no RSVP link — just a heads-up to hold the date.',
-    trigger: 'Manual — sent by Coolkidz team',
-    subject: 'Save the date — The Nanit Reset, 15 November 2026',
+    description: 'Send before formal invitations go out. Announces the date with no RSVP link, just a heads-up to hold the date.',
+    trigger: 'Manual, sent by Coolkidz team',
+    subject: 'Save the date, The Nanit Reset, 16 November 2026',
     audiences: false,
     sendable: true,
     apiRoute: '/api/admin/send-save-the-date',
@@ -38,8 +38,8 @@ const EMAIL_TYPES = [
     id: 'invitation',
     name: 'Invitation email',
     description: 'Sent when you click Send from the Send invitations tab. Personalised per audience type.',
-    trigger: 'Manual — sent by Coolkidz team',
-    subject: "You're invited — The Nanit Reset, 15 November 2026",
+    trigger: 'Manual, sent by Coolkidz team',
+    subject: "You're invited, The Nanit Reset, 16 November 2026",
     audiences: true,
     sendable: false,
   },
@@ -57,7 +57,7 @@ const EMAIL_TYPES = [
     name: 'RSVP declined',
     description: 'Sent automatically when a guest clicks "Can\'t make it this time".',
     trigger: 'Automatic on RSVP decline',
-    subject: "Thank you — The Nanit Reset",
+    subject: "Thank you, The Nanit Reset",
     audiences: false,
     sendable: false,
   },
@@ -65,8 +65,8 @@ const EMAIL_TYPES = [
     id: 'thankyou',
     name: 'Post-event thank you',
     description: 'Sent to all guests who checked in on the day. Warm follow-up with hashtag and social nudge.',
-    trigger: 'Manual — sent after the event',
-    subject: 'Thank you for joining us — The Nanit Reset',
+    trigger: 'Manual, sent after the event',
+    subject: 'Thank you for joining us, The Nanit Reset',
     audiences: false,
     sendable: true,
     apiRoute: '/api/admin/send-thank-you',
@@ -165,7 +165,7 @@ function EmailPreviewCard({ guests }: { guests: Guest[] }) {
                       {email.id === 'invitation' ? 'The Nanit Reset.' : email.id === 'confirmed' ? "You're confirmed." : 'Thanks for letting us know.'}
                     </p>
                     {email.id === 'invitation' && (
-                      <p className="text-xs mb-6" style={{ color: 'rgba(255,255,255,0.5)' }}>15 November 2026 · Sydney</p>
+                      <p className="text-xs mb-6" style={{ color: 'rgba(255,255,255,0.5)' }}>16 November 2026 · Sydney</p>
                     )}
                     <div className="w-8 h-px mx-auto mb-6" style={{ background: BLUE }} />
 
@@ -178,7 +178,7 @@ function EmailPreviewCard({ guests }: { guests: Guest[] }) {
                           {content.sub}
                         </p>
                         <div className="rounded-xl p-4 mb-6 text-left space-y-3" style={{ background: 'rgba(255,255,255,0.05)' }}>
-                          {[['Date', 'Saturday, 15 November 2026'], ['Time', '10:00am – 1:00pm'], ['Location', 'Sydney, NSW — venue details to follow']].map(([l, v]) => (
+                          {[['Date', 'Monday, 16 November 2026'], ['Time', '11:00am – 2:00pm'], ['Location', 'The Atrium, The Grounds of Alexandria, 7a / 2 Huntley Street, Alexandria NSW 2015']].map(([l, v]) => (
                             <div key={l}>
                               <p className="text-xs uppercase tracking-widest" style={{ color: 'rgba(255,255,255,0.4)', fontFamily: 'NeuePlak, sans-serif' }}>{l}</p>
                               <p className="text-sm" style={{ color: 'rgba(255,255,255,0.9)', fontFamily: 'BentonSans, sans-serif' }}>{v}</p>
@@ -197,7 +197,7 @@ function EmailPreviewCard({ guests }: { guests: Guest[] }) {
                           We have you down for The Nanit Reset.<br />We're looking forward to seeing you there.
                         </p>
                         <div className="rounded-xl p-4 text-left space-y-3" style={{ background: 'rgba(255,255,255,0.05)' }}>
-                          {[['Date', 'Saturday, 15 November 2026'], ['Time', '10:00am – 1:00pm'], ['Location', 'Sydney, NSW — venue details to follow']].map(([l, v]) => (
+                          {[['Date', 'Monday, 16 November 2026'], ['Time', '11:00am – 2:00pm'], ['Location', 'The Atrium, The Grounds of Alexandria, 7a / 2 Huntley Street, Alexandria NSW 2015']].map(([l, v]) => (
                             <div key={l}>
                               <p className="text-xs uppercase tracking-widest" style={{ color: 'rgba(255,255,255,0.4)', fontFamily: 'NeuePlak, sans-serif' }}>{l}</p>
                               <p className="text-sm" style={{ color: 'rgba(255,255,255,0.9)', fontFamily: 'BentonSans, sans-serif' }}>{v}</p>
@@ -327,7 +327,7 @@ export default function Communications({ guests }: { guests: Guest[] }) {
       {/* Email templates */}
       <SectionCard title="Email templates">
         <p className="text-sm mb-5" style={{ color: '#6B7280' }}>
-          Preview how each email looks before sending. Click an email to expand and see the full template — the invitation email can be previewed per audience type.
+          Preview how each email looks before sending. Click an email to expand and see the full template, the invitation email can be previewed per audience type.
         </p>
         <EmailPreviewCard guests={guests} />
       </SectionCard>

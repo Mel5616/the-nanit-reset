@@ -10,7 +10,7 @@ export default function SaveTheDateEmail({ guest, baseUrl = '' }: { guest: Guest
   return (
     <Html>
       <Head />
-      <Preview>Save the date — The Nanit Reset, 15 November 2026</Preview>
+      <Preview>Save the date, The Nanit Reset, 16 November 2026</Preview>
       <Body style={{ backgroundColor: NAVY, fontFamily: 'Helvetica Neue, Helvetica, Arial, sans-serif', margin: 0, padding: 0 }}>
         <Section style={{ backgroundColor: BLUE, height: '4px', padding: 0 }} />
         <Container style={{ maxWidth: '600px', margin: '0 auto', padding: '48px 32px' }}>
@@ -24,7 +24,7 @@ export default function SaveTheDateEmail({ guest, baseUrl = '' }: { guest: Guest
             The Nanit Reset.
           </Text>
           <Text style={{ color: 'rgba(255,255,255,0.5)', fontSize: '14px', textAlign: 'center', margin: '0 0 48px', letterSpacing: '1px' }}>
-            15 November 2026 · Sydney
+            16 November 2026 · Sydney
           </Text>
           <Hr style={{ borderColor: BLUE, borderWidth: '1px', margin: '0 auto 48px', width: '48px' }} />
           <Text style={{ color: 'rgba(255,255,255,0.8)', fontSize: '16px', textAlign: 'center', lineHeight: '1.8', margin: '0 0 40px' }}>
@@ -33,15 +33,15 @@ export default function SaveTheDateEmail({ guest, baseUrl = '' }: { guest: Guest
           <Section style={{ backgroundColor: 'rgba(255,255,255,0.06)', borderRadius: '14px', padding: '32px', marginBottom: '40px' }}>
             <Section style={{ marginBottom: '18px' }}>
               <Text style={{ color: 'rgba(255,255,255,0.4)', fontSize: '10px', letterSpacing: '2px', textTransform: 'uppercase', margin: '0 0 5px' }}>Date</Text>
-              <Text style={{ color: 'rgba(255,255,255,0.9)', fontSize: '16px', fontWeight: '500', margin: 0 }}>Saturday, 15 November 2026</Text>
+              <Text style={{ color: 'rgba(255,255,255,0.9)', fontSize: '16px', fontWeight: '500', margin: 0 }}>Monday, 16 November 2026</Text>
             </Section>
             <Section style={{ marginBottom: '18px' }}>
               <Text style={{ color: 'rgba(255,255,255,0.4)', fontSize: '10px', letterSpacing: '2px', textTransform: 'uppercase', margin: '0 0 5px' }}>Time</Text>
-              <Text style={{ color: 'rgba(255,255,255,0.9)', fontSize: '16px', margin: 0 }}>10:00am – 1:00pm</Text>
+              <Text style={{ color: 'rgba(255,255,255,0.9)', fontSize: '16px', margin: 0 }}>11:00am – 2:00pm</Text>
             </Section>
             <Section>
               <Text style={{ color: 'rgba(255,255,255,0.4)', fontSize: '10px', letterSpacing: '2px', textTransform: 'uppercase', margin: '0 0 5px' }}>Location</Text>
-              <Text style={{ color: 'rgba(255,255,255,0.9)', fontSize: '16px', margin: 0 }}>Sydney, NSW — venue details to follow</Text>
+              <Text style={{ color: 'rgba(255,255,255,0.9)', fontSize: '16px', margin: 0 }}>The Atrium, The Grounds of Alexandria, 7a / 2 Huntley Street, Alexandria NSW 2015</Text>
             </Section>
           </Section>
           <Text style={{ color: 'rgba(255,255,255,0.55)', fontSize: '14px', textAlign: 'center', lineHeight: '1.8', margin: '0 0 48px' }}>

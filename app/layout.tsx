@@ -3,7 +3,7 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: "The Nanit Reset",
-  description: "An exclusive event for Nanit Australia — 15 November 2026, Sydney",
+  description: "An exclusive event for Nanit Australia. 16 November 2026, Sydney.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

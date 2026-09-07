@@ -9,7 +9,7 @@ export default function RsvpDeclinedEmail({ guest, baseUrl = '' }: { guest: Gues
   return (
     <Html>
       <Head />
-      <Preview>Thank you — The Nanit Reset</Preview>
+      <Preview>Thank you, The Nanit Reset</Preview>
       <Body style={{ backgroundColor: NAVY, fontFamily: 'Helvetica Neue, Helvetica, Arial, sans-serif', margin: 0, padding: 0 }}>
         <Section style={{ backgroundColor: BLUE, height: '4px', padding: 0 }} />
         <Container style={{ maxWidth: '600px', margin: '0 auto', padding: '48px 32px' }}>

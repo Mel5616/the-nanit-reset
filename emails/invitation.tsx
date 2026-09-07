@@ -15,7 +15,7 @@ export default function InvitationEmail({ guest, baseUrl }: { guest: Guest; base
   return (
     <Html>
       <Head />
-      <Preview>You're invited to The Nanit Reset — 15 November 2026, Sydney</Preview>
+      <Preview>You're invited to The Nanit Reset, 16 November 2026, Sydney</Preview>
       <Body style={{ backgroundColor: NAVY, fontFamily: 'Helvetica Neue, Helvetica, Arial, sans-serif', margin: 0, padding: 0 }}>
         {/* Top bar */}
         <Section style={{ backgroundColor: BLUE, height: '4px', padding: 0 }} />
@@ -32,7 +32,7 @@ export default function InvitationEmail({ guest, baseUrl }: { guest: Guest; base
             The Nanit Reset.
           </Text>
           <Text style={{ color: 'rgba(255,255,255,0.5)', fontSize: '13px', textAlign: 'center', margin: '0 0 40px', letterSpacing: '1px' }}>
-            15 November 2026 · Sydney
+            16 November 2026 · Sydney
           </Text>
 
           <Hr style={{ borderColor: BLUE, borderWidth: '1px', margin: '0 auto 40px', width: '48px' }} />
@@ -48,9 +48,9 @@ export default function InvitationEmail({ guest, baseUrl }: { guest: Guest; base
           {/* Event details */}
           <Section style={{ backgroundColor: 'rgba(255,255,255,0.05)', borderRadius: '12px', padding: '32px', marginBottom: '32px' }}>
             {[
-              ['Date', 'Saturday, 15 November 2026'],
-              ['Time', '10:00am – 1:00pm'],
-              ['Location', 'Sydney, NSW — venue details to follow'],
+              ['Date', 'Monday, 16 November 2026'],
+              ['Time', '11:00am – 2:00pm'],
+              ['Location', 'The Atrium, The Grounds of Alexandria, 7a / 2 Huntley Street, Alexandria NSW 2015'],
               ['Format', 'Expert panel · App experience · Gifting'],
             ].map(([label, value]) => (
               <Section key={label} style={{ marginBottom: '16px' }}>

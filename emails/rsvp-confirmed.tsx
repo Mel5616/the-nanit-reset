@@ -9,7 +9,7 @@ export default function RsvpConfirmedEmail({ guest, baseUrl = '' }: { guest: Gue
   return (
     <Html>
       <Head />
-      <Preview>You're confirmed for The Nanit Reset — 15 November 2026</Preview>
+      <Preview>You're confirmed for The Nanit Reset, 16 November 2026</Preview>
       <Body style={{ backgroundColor: NAVY, fontFamily: 'Helvetica Neue, Helvetica, Arial, sans-serif', margin: 0, padding: 0 }}>
         <Section style={{ backgroundColor: BLUE, height: '4px', padding: 0 }} />
         <Container style={{ maxWidth: '600px', margin: '0 auto', padding: '48px 32px' }}>
@@ -29,9 +29,9 @@ export default function RsvpConfirmedEmail({ guest, baseUrl = '' }: { guest: Gue
           </Text>
           <Section style={{ backgroundColor: 'rgba(255,255,255,0.05)', borderRadius: '12px', padding: '32px', marginBottom: '32px' }}>
             {[
-              ['Date', 'Saturday, 15 November 2026'],
-              ['Time', '10:00am – 1:00pm'],
-              ['Location', 'Sydney, NSW — venue details to follow'],
+              ['Date', 'Monday, 16 November 2026'],
+              ['Time', '11:00am – 2:00pm'],
+              ['Location', 'The Atrium, The Grounds of Alexandria, 7a / 2 Huntley Street, Alexandria NSW 2015'],
             ].map(([label, value]) => (
               <Section key={label} style={{ marginBottom: '16px' }}>
                 <Text style={{ color: 'rgba(255,255,255,0.4)', fontSize: '10px', letterSpacing: '2px', textTransform: 'uppercase', margin: '0 0 4px' }}>{label}</Text>

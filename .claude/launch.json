@@ -1,11 +1,6 @@
 {
   "version": "0.0.1",
   "configurations": [
-    {
-      "name": "nanit-reset",
-      "runtimeExecutable": "npm",
-      "runtimeArgs": ["run", "dev"],
-      "port": 3000
-    }
+    { "name": "nanit-dev", "runtimeExecutable": "npm", "runtimeArgs": ["run", "dev", "--", "--port", "3939"], "port": 3939 }
   ]
 }

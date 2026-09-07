@@ -28,8 +28,11 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Guest not found' }, { status: 404 })
   }
 
-  if (guest.status === 'confirmed' || guest.status === 'declined') {
-    return NextResponse.json({ ok: true })
+  const newStatus = action === 'confirm' ? 'confirmed' : 'declined'
+
+  // No change, don't re-send emails.
+  if (guest.status === newStatus) {
+    return NextResponse.json({ ok: true, unchanged: true })
   }
 
   const update =
@@ -50,7 +53,7 @@ export async function POST(req: NextRequest) {
       await resend.emails.send({
         from: process.env.FROM_EMAIL!,
         to: guest.email,
-        subject: "You're confirmed — The Nanit Reset",
+        subject: "You're confirmed, The Nanit Reset",
         html,
       })
     } else {
@@ -58,7 +61,7 @@ export async function POST(req: NextRequest) {
       await resend.emails.send({
         from: process.env.FROM_EMAIL!,
         to: guest.email,
-        subject: "Thank you — The Nanit Reset",
+        subject: "Thank you, The Nanit Reset",
         html,
       })
     }
@@ -73,7 +76,7 @@ export async function POST(req: NextRequest) {
       await resend.emails.send({
         from: process.env.FROM_EMAIL!,
         to: process.env.ADMIN_NOTIFY_EMAIL,
-        subject: `${guest.first_name} ${guest.last_name} has ${action === 'confirm' ? 'confirmed ✓' : 'declined ✗'} — The Nanit Reset`,
+        subject: `${guest.first_name} ${guest.last_name} has ${action === 'confirm' ? 'confirmed ✓' : 'declined ✗'}, The Nanit Reset`,
         html: alertHtml,
       })
     }

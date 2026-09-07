@@ -13,7 +13,7 @@ export default function RsvpReminderEmail({ guest, baseUrl }: { guest: Guest; ba
   return (
     <Html>
       <Head />
-      <Preview>A gentle reminder — The Nanit Reset, 15 November 2026</Preview>
+      <Preview>A gentle reminder, The Nanit Reset, 16 November 2026</Preview>
       <Body style={{ backgroundColor: NAVY, fontFamily: 'Helvetica Neue, Helvetica, Arial, sans-serif', margin: 0, padding: 0 }}>
         <Section style={{ backgroundColor: BLUE, height: '4px', padding: 0 }} />
         <Container style={{ maxWidth: '600px', margin: '0 auto', padding: '48px 32px' }}>
@@ -27,21 +27,21 @@ export default function RsvpReminderEmail({ guest, baseUrl }: { guest: Guest; ba
             The Nanit Reset.
           </Text>
           <Text style={{ color: 'rgba(255,255,255,0.5)', fontSize: '13px', textAlign: 'center', margin: '0 0 40px', letterSpacing: '1px' }}>
-            15 November 2026 · Sydney
+            16 November 2026 · Sydney
           </Text>
 
           <Hr style={{ borderColor: BLUE, borderWidth: '1px', margin: '0 auto 40px', width: '48px' }} />
 
           <Text style={{ color: 'rgba(255,255,255,0.8)', fontSize: '16px', textAlign: 'center', lineHeight: '1.7', margin: '0 0 40px' }}>
             {guest.first_name}, we sent you an invitation a little while ago and wanted to follow up.{' '}
-            We'd love to know if you can join us — places are limited and we're confirming final numbers.
+            We'd love to know if you can join us, places are limited and we're confirming final numbers.
           </Text>
 
           <Section style={{ backgroundColor: 'rgba(255,255,255,0.05)', borderRadius: '12px', padding: '24px', marginBottom: '32px' }}>
             {[
-              ['Date', 'Saturday, 15 November 2026'],
-              ['Time', '10:00am – 1:00pm'],
-              ['Location', 'Sydney, NSW — venue details to follow'],
+              ['Date', 'Monday, 16 November 2026'],
+              ['Time', '11:00am – 2:00pm'],
+              ['Location', 'The Atrium, The Grounds of Alexandria, 7a / 2 Huntley Street, Alexandria NSW 2015'],
             ].map(([label, value]) => (
               <Section key={label} style={{ marginBottom: '14px' }}>
                 <Text style={{ color: 'rgba(255,255,255,0.4)', fontSize: '10px', letterSpacing: '2px', textTransform: 'uppercase', margin: '0 0 4px' }}>{label}</Text>
@@ -60,7 +60,7 @@ export default function RsvpReminderEmail({ guest, baseUrl }: { guest: Guest; ba
           <Hr style={{ borderColor: BLUE, borderWidth: '1px', margin: '0 auto 32px', width: '48px' }} />
 
           <Text style={{ color: 'rgba(255,255,255,0.3)', fontSize: '11px', textAlign: 'center', lineHeight: '1.7', margin: 0 }}>
-            If you can't make it, simply open your invitation and let us know — no pressure at all.
+            If you can't make it, simply open your invitation and let us know, no pressure at all.
           </Text>
         </Container>
         <Section style={{ backgroundColor: BLUE, height: '4px', padding: 0 }} />

@@ -36,7 +36,7 @@ export async function POST(req: NextRequest) {
       await resend.emails.send({
         from: process.env.FROM_EMAIL!,
         to: guest.email,
-        subject: `You're invited — The Nanit Reset, 15 November 2026`,
+        subject: `You're invited, The Nanit Reset, 16 November 2026`,
         html,
       })
       await db

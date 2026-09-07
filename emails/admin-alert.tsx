@@ -10,7 +10,7 @@ export default function AdminAlertEmail({ guest, action }: { guest: Guest; actio
   return (
     <Html>
       <Head />
-      <Preview>{guest.first_name} {guest.last_name} has {isConfirmed ? 'confirmed' : 'declined'} — The Nanit Reset</Preview>
+      <Preview>{guest.first_name} {guest.last_name} has {isConfirmed ? 'confirmed' : 'declined'}, The Nanit Reset</Preview>
       <Body style={{ backgroundColor: '#FAF7F3', fontFamily: 'Helvetica Neue, Helvetica, Arial, sans-serif', margin: 0, padding: 0 }}>
         <Container style={{ maxWidth: '500px', margin: '0 auto', padding: '40px 24px' }}>
           <div style={{ borderRadius: '16px', overflow: 'hidden', background: '#fff', boxShadow: '0 2px 16px rgba(17,29,65,0.08)' }}>

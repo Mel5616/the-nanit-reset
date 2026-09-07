@@ -1,239 +1,207 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { Guest } from '@/lib/supabase'
-import { inviteContent } from '@/lib/invite-content'
-import RSVPButtons from './RSVPButtons'
-import QRCode from './QRCode'
 
-const NAVY = '#111D41'
+const ENV_NAVY = '#2D4977'   // envelope
+const NAVY = '#111D41'       // deep text
 const BLUE = '#6681AB'
-const MIDNIGHT = '#204977'
+const SOFT = '#BDD4E7'
+const CREAM = '#F3EBE0'
+const PAPER = '#FBF8F3'
+
+// Rounded-square Nanit motif, tiled — used as the envelope texture.
+const dotPattern =
+  "data:image/svg+xml;utf8," +
+  encodeURIComponent(
+    `<svg xmlns='http://www.w3.org/2000/svg' width='54' height='54' viewBox='0 0 54 54'>
+      <rect x='9' y='9' width='36' height='36' rx='14' fill='none' stroke='%23ffffff' stroke-width='2' opacity='0.10'/>
+     </svg>`
+  )
 
 export default function InviteClient({ guest }: { guest: Guest }) {
-  const [phase, setPhase] = useState<'sealed' | 'opening' | 'open'>('sealed')
-  const [mounted, setMounted] = useState(false)
-  const content = inviteContent[guest.audience_type]
+  const guestName = `${guest.first_name} ${guest.last_name}`.trim()
+  const firstName = guest.first_name
 
+  const [opened, setOpened] = useState(false)
+  const [reply, setReply] = useState<'idle' | 'confirmed' | 'declined'>(
+    guest.status === 'confirmed' ? 'confirmed' : guest.status === 'declined' ? 'declined' : 'idle'
+  )
+  const [loading, setLoading] = useState<'confirm' | 'decline' | null>(null)
+  const [error, setError] = useState(false)
+
+  // Auto-play the reveal on load.
   useEffect(() => {
-    const t = setTimeout(() => setMounted(true), 80)
+    const t = setTimeout(() => setOpened(true), 2400)
     return () => clearTimeout(t)
   }, [])
 
-  function open() {
-    setPhase('opening')
-    setTimeout(() => setPhase('open'), 900)
+  const replay = useCallback(() => {
+    setOpened(false)
+    const t = setTimeout(() => setOpened(true), 2400)
+    return () => clearTimeout(t)
+  }, [])
+
+  async function respond(action: 'confirm' | 'decline') {
+    setLoading(action); setError(false)
+    try {
+      const res = await fetch('/api/confirm-rsvp', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ token: guest.invite_token, guestId: guest.id, action }),
+      })
+      if (!res.ok) throw new Error()
+      setReply(action === 'confirm' ? 'confirmed' : 'declined')
+    } catch {
+      setError(true)
+    }
+    setLoading(null)
   }
 
+  const label: React.CSSProperties = { fontFamily: 'NeuePlak, BentonSans, sans-serif', letterSpacing: '0.22em', textTransform: 'uppercase' }
+  const serif: React.CSSProperties = { fontFamily: 'Cotford, Georgia, serif' }
+  const body: React.CSSProperties = { fontFamily: 'BentonSans, Helvetica, sans-serif' }
+
   return (
-    <main style={{ background: NAVY, minHeight: '100vh', overflow: 'hidden' }}>
+    <main style={{ minHeight: '100vh', background: CREAM, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '48px 18px', overflowX: 'hidden' }}>
+      <style>{`
+        @keyframes flapOpen { 0%{transform:rotateX(0)} 100%{transform:rotateX(-180deg)} }
+        @keyframes cardRise { 0%{transform:translateY(38%);opacity:.4} 55%{transform:translateY(-64%);opacity:1} 100%{transform:translateY(-64%);opacity:1} }
+        @keyframes fadeUp { from{opacity:0;transform:translateY(26px)} to{opacity:1;transform:translateY(0)} }
+        @keyframes softIn { from{opacity:0} to{opacity:1} }
+        .reveal-flap.play { animation: flapOpen 0.9s ease .5s forwards; transform-origin: top center; }
+        .reveal-card.play { animation: cardRise 1.5s cubic-bezier(.2,.7,.2,1) .6s forwards; }
+      `}</style>
 
-      {/* ── Sealed envelope ───────────────────────────────── */}
-      {phase !== 'open' && (
-        <div style={{
-          position: 'fixed', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center',
-          background: NAVY, zIndex: 50,
-          opacity: phase === 'opening' ? 0 : mounted ? 1 : 0,
-          transition: phase === 'opening' ? 'opacity 0.7s ease-in' : 'opacity 0.6s ease-out',
-          pointerEvents: phase === 'opening' ? 'none' : 'auto',
-        }}>
-          <div
-            onClick={open}
-            role="button"
-            tabIndex={0}
-            onKeyDown={e => e.key === 'Enter' && open()}
-            style={{
-              position: 'relative',
-              width: 'min(360px, 88vw)',
-              height: 'min(420px, 85vw)',
-              cursor: 'pointer',
-              transform: mounted ? 'translateY(0)' : 'translateY(28px)',
-              transition: 'transform 0.9s cubic-bezier(0.16, 1, 0.3, 1)',
-            }}
-          >
-
-            {/* ── Layer 1 (back): Card tucked inside ── */}
-            <div style={{
-              position: 'absolute',
-              top: 0,
-              left: 12,
-              right: 12,
-              bottom: '32%',  // card bottom is hidden behind envelope body
-              zIndex: 1,
-              background: '#172340',
-              borderRadius: 6,
-              border: '1px solid rgba(102,129,171,0.2)',
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              justifyContent: 'flex-start',
-              paddingTop: 28,
-              overflow: 'hidden',
-            }}>
-              <p style={{ color: 'rgba(255,255,255,0.3)', fontSize: 9, letterSpacing: '0.22em', textTransform: 'uppercase', fontFamily: 'NeuePlak, sans-serif', marginBottom: 14 }}>
-                You are cordially invited
-              </p>
-              <p style={{ color: 'rgba(255,255,255,0.88)', fontSize: 26, fontFamily: 'Cotford, Georgia, serif', fontWeight: 300, letterSpacing: '-0.01em', lineHeight: 1.2, marginBottom: 10, textAlign: 'center' }}>
-                The Nanit Reset.
-              </p>
-              <div style={{ width: 32, height: 1, background: 'rgba(102,129,171,0.4)', marginBottom: 10 }} />
-              <p style={{ color: 'rgba(255,255,255,0.35)', fontSize: 11, fontFamily: 'BentonSans, sans-serif', letterSpacing: '0.08em' }}>
-                15 November 2026 · Sydney
-              </p>
+      {/* ---------- REVEAL ---------- */}
+      {!opened && (
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', animation: 'softIn .5s ease' }}>
+          <img src="/nanit-logo-light.png" alt="Nanit" style={{ height: 22, opacity: 0, position: 'absolute' }} />
+          <div style={{ position: 'relative', width: 'min(520px, 92vw)', height: 'min(340px, 62vw)', perspective: 1200 }}>
+            {/* card tucked inside */}
+            <div className="reveal-card play" style={{ position: 'absolute', left: '6%', right: '6%', top: 0, height: '150%', background: PAPER, borderRadius: 10, boxShadow: '0 14px 40px rgba(17,29,65,0.18)', zIndex: 1 }} />
+            {/* envelope body */}
+            <div style={{ position: 'absolute', inset: 0, top: '38%', background: ENV_NAVY, borderRadius: '4px 4px 10px 10px', zIndex: 2, overflow: 'hidden', boxShadow: '0 18px 50px rgba(17,29,65,0.28)' }}>
+              <div style={{ position: 'absolute', inset: 0, backgroundImage: `url("${dotPattern}")`, backgroundSize: '54px 54px' }} />
+              <div style={{ position: 'absolute', left: 0, right: 0, bottom: '18%', textAlign: 'center' }}>
+                <p style={{ ...serif, fontStyle: 'italic', color: '#EDE4D6', fontSize: 'clamp(20px,5vw,28px)', margin: 0 }}>{guestName}</p>
+                <div style={{ width: 34, height: 1, background: 'rgba(237,228,214,0.5)', margin: '12px auto' }} />
+                <p style={{ ...label, color: 'rgba(237,228,214,0.7)', fontSize: 10 }}>Private view</p>
+              </div>
             </div>
-
-            {/* ── Layer 2 (middle): Envelope body ── */}
-            <svg
-              viewBox="0 0 360 280"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-              style={{
-                position: 'absolute',
-                bottom: 0,
-                left: 0,
-                width: '100%',
-                height: '68%',
-                zIndex: 2,
-                filter: 'drop-shadow(0 24px 48px rgba(0,0,0,0.55))',
-              }}
-            >
-              {/* Envelope body rectangle */}
-              <rect x="0.75" y="0.75" width="358.5" height="278.5" rx="5" fill="#1A2E52" stroke="rgba(102,129,171,0.35)" strokeWidth="1.5"/>
-              {/* Bottom-left crease */}
-              <path d="M1 278 L180 158" stroke="rgba(102,129,171,0.18)" strokeWidth="1"/>
-              {/* Bottom-right crease */}
-              <path d="M359 278 L180 158" stroke="rgba(102,129,171,0.18)" strokeWidth="1"/>
-              {/* Sealed flap — V pointing down from top */}
-              <path d="M1 1 L180 110 L359 1 Z" fill="#152544" stroke="rgba(102,129,171,0.35)" strokeWidth="1.5"/>
-            </svg>
-
-            {/* ── Layer 3 (front): Wax seal on the flap ── */}
-            <div style={{
-              position: 'absolute',
-              bottom: '37%',
-              left: '50%',
-              transform: 'translateX(-50%)',
-              width: 68,
-              height: 68,
-              borderRadius: '50%',
-              zIndex: 3,
-              background: `radial-gradient(circle at 32% 32%, #7B9BC4, ${BLUE} 55%, ${MIDNIGHT})`,
-              boxShadow: '0 6px 24px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.18)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}>
-              <span style={{ color: 'rgba(255,255,255,0.88)', fontSize: 13, fontFamily: 'Cotford, Georgia, serif', letterSpacing: '0.05em', fontStyle: 'italic' }}>NR</span>
-            </div>
-
-            {/* Tap to open label */}
-            <div style={{ position: 'absolute', bottom: -40, left: 0, right: 0, textAlign: 'center' }}>
-              <p style={{
-                color: 'rgba(255,255,255,0.32)',
-                fontSize: 10,
-                fontFamily: 'NeuePlak, sans-serif',
-                letterSpacing: '0.22em',
-                textTransform: 'uppercase',
-                animation: 'breathe 2.4s ease-in-out infinite',
-              }}>
-                Tap to open
-              </p>
+            {/* top flap */}
+            <div className="reveal-flap play" style={{ position: 'absolute', left: 0, right: 0, top: '38%', height: 0, zIndex: 3 }}>
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 0, height: 130, clipPath: 'polygon(0 0, 100% 0, 50% 100%)', background: '#26406B', backfaceVisibility: 'hidden' }} />
             </div>
           </div>
+          <p style={{ ...label, color: BLUE, fontSize: 10, marginTop: 30 }}>Opening your invitation…</p>
         </div>
       )}
 
-      {/* ── Open invitation ─────────────────────────────── */}
-      <div style={{
-        opacity: phase === 'open' ? 1 : 0,
-        transform: phase === 'open' ? 'translateY(0)' : 'translateY(32px)',
-        transition: 'opacity 0.7s ease-out 0.1s, transform 0.8s cubic-bezier(0.16,1,0.3,1) 0.1s',
-        pointerEvents: phase === 'open' ? 'auto' : 'none',
-      }}>
-        <div style={{ height: 4, background: BLUE }} />
-        <div style={{ maxWidth: 640, margin: '0 auto', padding: '64px 24px' }}>
+      {/* ---------- LETTER ---------- */}
+      {opened && (
+        <div style={{ width: 'min(640px, 100%)', animation: 'fadeUp .7s ease' }}>
+          <article style={{ background: PAPER, borderRadius: 18, boxShadow: '0 10px 50px rgba(17,29,65,0.10)', overflow: 'hidden' }}>
+            <div style={{ height: 4, background: BLUE }} />
+            <div style={{ padding: 'clamp(30px,6vw,52px)' }}>
+              <div style={{ textAlign: 'center', marginBottom: 30 }}>
+                <img src="/nanit-logo-dark.png" alt="Nanit" style={{ height: 24, opacity: 0.9 }} />
+                <p style={{ ...label, color: BLUE, fontSize: 10, marginTop: 18 }}>By invitation only</p>
+              </div>
 
-          <div style={{ textAlign: 'center', marginBottom: 64 }}>
-            <img src="/nanit-logo-light.png" alt="Nanit" style={{ height: 32, margin: '0 auto 32px', display: 'block', opacity: 0.8 }} />
-            <p style={{ color: 'rgba(255,255,255,0.35)', fontSize: 10, letterSpacing: '0.25em', textTransform: 'uppercase', fontFamily: 'NeuePlak, sans-serif', marginBottom: 20 }}>
-              You are invited to
-            </p>
-            <h1 style={{ color: '#fff', fontFamily: 'Cotford, Georgia, serif', fontWeight: 300, fontSize: 'clamp(2.4rem, 7vw, 3.8rem)', letterSpacing: '-0.02em', marginBottom: 12, lineHeight: 1.1 }}>
-              The Nanit Reset.
-            </h1>
-            <p style={{ color: 'rgba(255,255,255,0.45)', fontSize: 13, letterSpacing: '0.1em', fontFamily: 'BentonSans, sans-serif' }}>
-              15 November 2026 · Sydney
-            </p>
-          </div>
+              <p style={{ ...serif, fontStyle: 'italic', color: NAVY, fontSize: 'clamp(26px,6vw,34px)', textAlign: 'center', margin: '0 0 28px', lineHeight: 1.1 }}>
+                {guestName}
+              </p>
 
-          <div style={{ width: 48, height: 1, background: BLUE, margin: '0 auto 64px' }} />
+              <h1 style={{ ...serif, color: NAVY, fontSize: 'clamp(22px,5vw,28px)', fontWeight: 400, textAlign: 'center', lineHeight: 1.35, margin: '0 0 10px' }}>
+                A morning to pause, listen and reset.
+              </h1>
+              <p style={{ ...label, color: BLUE, fontSize: 11, textAlign: 'center', margin: '0 0 6px' }}>The Nanit Reset</p>
+              <p style={{ ...body, color: '#55606F', fontSize: 15, textAlign: 'center', margin: '0 0 30px' }}>
+                in conversation with Dr Natalie Barnett PhD
+                <br /><span style={{ color: '#8894A4', fontSize: 13 }}>Vice President of Clinical Research, Nanit</span>
+              </p>
 
-          <div style={{ textAlign: 'center', marginBottom: 64, padding: '0 16px' }}>
-            <p style={{ color: '#fff', fontFamily: 'Cotford, Georgia, serif', fontWeight: 300, fontSize: 'clamp(1.3rem, 3.5vw, 1.7rem)', lineHeight: 1.5, marginBottom: 16 }}>
-              {content.hook}
-            </p>
-            <p style={{ color: 'rgba(255,255,255,0.55)', fontSize: 17, fontFamily: 'BentonSans, sans-serif', lineHeight: 1.6 }}>
-              {content.sub}
-            </p>
-          </div>
+              <div style={{ width: 40, height: 1, background: '#E3D9CC', margin: '0 auto 30px' }} />
 
-          <div style={{ borderRadius: 16, marginBottom: 24, padding: 32, background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.07)' }}>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 24 }}>
-              {[
-                { label: 'Date', value: 'Saturday, 15 November 2026' },
-                { label: 'Time', value: '10:00am – 1:00pm' },
-                { label: 'Location', value: 'Sydney, NSW — venue details to follow' },
-                { label: 'Format', value: 'Expert panel · App experience · Gifting' },
-              ].map(({ label, value }) => (
-                <div key={label}>
-                  <p style={{ color: 'rgba(255,255,255,0.35)', fontSize: 10, letterSpacing: '0.2em', textTransform: 'uppercase', fontFamily: 'NeuePlak, sans-serif', marginBottom: 6 }}>{label}</p>
-                  <p style={{ color: 'rgba(255,255,255,0.85)', fontSize: 13, fontFamily: 'BentonSans, sans-serif', lineHeight: 1.5 }}>{value}</p>
-                </div>
-              ))}
+              <p style={{ ...body, color: '#3F4A5A', fontSize: 15.5, lineHeight: 1.75, margin: '0 0 18px' }}>
+                Dr Barnett leads clinical research at Nanit in New York, where her team has analysed hundreds of thousands of nights of infant sleep. She joins us in Sydney for one morning only.
+              </p>
+              <p style={{ ...body, color: '#3F4A5A', fontSize: 15.5, lineHeight: 1.75, margin: '0 0 18px' }}>
+                The morning opens with conversation: what Nanit&apos;s sleep data reveals, and the questions you are asked most often. You will then have time with the Nanit range and see what it can tell you about your own baby&apos;s sleep. A guided breathwork class, cuddle time with the puppies, and a beautiful lunch.
+              </p>
+
+              {/* Details */}
+              <div style={{ background: '#fff', border: '1px solid #EEE6DA', borderRadius: 14, padding: '24px 26px', margin: '28px 0' }}>
+                {[
+                  ['When', 'Monday 16 November'],
+                  ['Time', '11am to 2pm, doors open at 10:30am'],
+                  ['Where', 'The Atrium, The Grounds of Alexandria'],
+                  ['Address', '7a / 2 Huntley Street, Alexandria NSW 2015'],
+                ].map(([k, v], i) => (
+                  <div key={k} style={{ display: 'flex', gap: 16, padding: '9px 0', borderTop: i ? '1px solid #F1EADF' : 'none' }}>
+                    <span style={{ ...label, color: BLUE, fontSize: 9.5, width: 74, flexShrink: 0, paddingTop: 3 }}>{k}</span>
+                    <span style={{ ...body, color: NAVY, fontSize: 15 }}>{v}</span>
+                  </div>
+                ))}
+              </div>
+
+              <p style={{ ...body, color: '#55606F', fontSize: 14.5, textAlign: 'center', lineHeight: 1.7, margin: '0 0 6px' }}>
+                This is a morning just for you. We kindly ask that children do not attend.
+              </p>
+              <p style={{ ...label, color: BLUE, fontSize: 10, textAlign: 'center', margin: '18px 0 0' }}>RSVP by Wednesday 4 November</p>
+
+              {/* RSVP */}
+              <div style={{ marginTop: 34, paddingTop: 30, borderTop: '1px solid #EEE6DA', textAlign: 'center' }}>
+                {reply === 'idle' && (
+                  <>
+                    <p style={{ ...serif, color: NAVY, fontSize: 21, margin: '0 0 20px' }}>Will you join us, {firstName}?</p>
+                    <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
+                      <button onClick={() => respond('confirm')} disabled={!!loading}
+                        style={{ ...body, background: NAVY, color: '#fff', border: 'none', padding: '14px 28px', borderRadius: 999, fontSize: 14.5, fontWeight: 600, cursor: 'pointer', opacity: loading === 'confirm' ? 0.6 : 1 }}>
+                        {loading === 'confirm' ? 'Just a moment…' : "Delighted, I'll be there"}
+                      </button>
+                      <button onClick={() => respond('decline')} disabled={!!loading}
+                        style={{ ...body, background: 'transparent', color: '#8894A4', border: '1px solid #DDD3C6', padding: '14px 28px', borderRadius: 999, fontSize: 14.5, cursor: 'pointer' }}>
+                        Sadly can&apos;t make it
+                      </button>
+                    </div>
+                    {error && <p style={{ color: '#C0392B', fontSize: 13, marginTop: 14 }}>Something went wrong. Please try again.</p>}
+                  </>
+                )}
+
+                {reply === 'confirmed' && (
+                  <>
+                    <div style={{ width: 46, height: 46, borderRadius: '50%', background: 'rgba(102,129,171,0.14)', border: `1px solid ${BLUE}`, display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px', color: NAVY, fontSize: 20 }}>✓</div>
+                    <p style={{ ...serif, color: NAVY, fontSize: 22, margin: '0 0 8px' }}>You&apos;re on the list, {firstName}.</p>
+                    <p style={{ ...body, color: '#55606F', fontSize: 14.5, lineHeight: 1.7, maxWidth: 380, margin: '0 auto' }}>
+                      A confirmation is on its way, with the running order and parking details closer to the day.
+                    </p>
+                    <button onClick={() => setReply('idle')} style={{ ...label, background: 'none', border: 'none', color: BLUE, fontSize: 10, cursor: 'pointer', marginTop: 18 }}>Change my reply</button>
+                  </>
+                )}
+
+                {reply === 'declined' && (
+                  <>
+                    <p style={{ ...serif, color: NAVY, fontSize: 21, margin: '0 0 8px' }}>Thank you for letting us know.</p>
+                    <p style={{ ...body, color: '#55606F', fontSize: 14.5, lineHeight: 1.7 }}>We&apos;ll keep you in mind for the next one.</p>
+                    <button onClick={() => setReply('idle')} style={{ ...label, background: 'none', border: 'none', color: BLUE, fontSize: 10, cursor: 'pointer', marginTop: 18 }}>Change my reply</button>
+                  </>
+                )}
+              </div>
             </div>
-          </div>
 
-          <div style={{ borderRadius: 12, marginBottom: 48, padding: '20px 24px', textAlign: 'center', background: 'rgba(102,129,171,0.12)', border: '1px solid rgba(102,129,171,0.22)' }}>
-            <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: 10, letterSpacing: '0.2em', textTransform: 'uppercase', fontFamily: 'NeuePlak, sans-serif', marginBottom: 8 }}>Keynote Speaker</p>
-            <p style={{ color: '#fff', fontSize: 16, fontFamily: 'BentonSans, sans-serif', fontWeight: 500, marginBottom: 4 }}>Dr Natalie Barnett</p>
-            <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: 13, fontFamily: 'BentonSans, sans-serif' }}>VP of Clinical Research, Nanit (US)</p>
-          </div>
-
-          <div style={{ textAlign: 'center', marginBottom: 48 }}>
-            <p style={{ color: 'rgba(255,255,255,0.45)', fontSize: 14, fontFamily: 'BentonSans, sans-serif', marginBottom: 28 }}>
-              {guest.first_name}, we'd love to have you there.
-            </p>
-            <RSVPButtons token={guest.invite_token} guestId={guest.id} />
-          </div>
-
-          {/* QR code for door check-in */}
-          <div style={{ textAlign: 'center', marginTop: 48, marginBottom: 32 }}>
-            <p style={{ color: 'rgba(255,255,255,0.3)', fontSize: 10, letterSpacing: '0.2em', textTransform: 'uppercase', fontFamily: 'NeuePlak, sans-serif', marginBottom: 16 }}>
-              Your check-in code
-            </p>
-            <div style={{ display: 'inline-block' }}>
-              <QRCode value={`${process.env.NEXT_PUBLIC_BASE_URL || ''}/invite/${guest.invite_token}`} size={140} />
+            <div style={{ textAlign: 'center', padding: '22px 0 26px', borderTop: '1px solid #EEE6DA' }}>
+              <img src="/nanit-logo-dark.png" alt="Nanit" style={{ height: 16, opacity: 0.55 }} />
+              <p style={{ ...label, color: '#A6AEBC', fontSize: 9, marginTop: 10 }}>nanit.com.au</p>
             </div>
-            <p style={{ color: 'rgba(255,255,255,0.2)', fontSize: 11, fontFamily: 'BentonSans, sans-serif', marginTop: 12 }}>
-              Show this at the door on 15 November
-            </p>
-          </div>
+          </article>
 
-          <div style={{ width: 48, height: 1, background: BLUE, margin: '0 auto 32px' }} />
-          <p style={{ textAlign: 'center', color: 'rgba(255,255,255,0.25)', fontSize: 11, fontFamily: 'BentonSans, sans-serif', lineHeight: 1.7 }}>
-            This is a curated, intimate event for approximately 30 guests. Places are limited.<br />
-            This invitation is personal and non-transferable.
-          </p>
+          <div style={{ textAlign: 'center', marginTop: 22 }}>
+            <button onClick={replay} style={{ ...label, background: 'none', border: 'none', color: BLUE, fontSize: 10, cursor: 'pointer' }}>↺ Play the reveal again</button>
+          </div>
         </div>
-        <div style={{ height: 4, background: BLUE }} />
-      </div>
-
-      <style>{`
-        @keyframes breathe {
-          0%, 100% { opacity: 0.32; }
-          50% { opacity: 0.65; }
-        }
-      `}</style>
+      )}
     </main>
   )
 }

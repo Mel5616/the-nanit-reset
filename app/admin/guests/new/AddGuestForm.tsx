@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { AudienceType } from '@/lib/supabase'
-import { audienceLabels, goodyBagDefaults } from '@/lib/invite-content'
+import { audienceLabels } from '@/lib/invite-content'
 
 const NAVY = '#111D41'
 const BLUE = '#6681AB'
@@ -18,7 +18,6 @@ const audienceDescriptions: Record<AudienceType, string> = {
   celebrity: 'High-profile parents & personalities',
 }
 
-const GOODY_BAG_OPTIONS = ['Creator Bag', 'Healthcare Bag', 'Retail Bag', 'VIP Bag', 'None']
 
 function Input({ label, name, value, onChange, type = 'text', required = false, placeholder = '' }: {
   label: string; name: string; value: string; onChange: (v: string) => void
@@ -63,7 +62,7 @@ export default function AddGuestForm() {
   }
 
   function selectAudience(k: AudienceType) {
-    setForm(f => ({ ...f, audience_type: k, goody_bag: goodyBagDefaults[k] }))
+    setForm(f => ({ ...f, audience_type: k }))
   }
 
   async function handleSubmit(e: React.FormEvent) {
@@ -142,27 +141,6 @@ export default function AddGuestForm() {
               placeholder="e.g. Gluten free, vegan, nut allergy"
               className="w-full px-4 py-3 border border-gray-200 rounded-xl text-sm text-gray-900 outline-none focus:border-blue-400 bg-white"
             />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Goody bag</label>
-            <div className="flex flex-wrap gap-2">
-              {GOODY_BAG_OPTIONS.map(opt => (
-                <button
-                  key={opt} type="button"
-                  onClick={() => setForm(f => ({ ...f, goody_bag: opt }))}
-                  className="px-4 py-2 rounded-full text-sm border-2 transition-all"
-                  style={form.goody_bag === opt
-                    ? { borderColor: NAVY, background: NAVY, color: '#fff' }
-                    : { borderColor: '#E5E7EB', color: '#6B7280' }}
-                >
-                  {opt}
-                </button>
-              ))}
-            </div>
-            {form.audience_type && form.goody_bag && (
-              <p className="text-xs text-gray-400 mt-2">Auto-suggested based on audience type</p>
-            )}
           </div>
 
           <div className="flex items-center gap-3 py-2 px-4 rounded-xl border-2 border-gray-100 bg-gray-50/50">

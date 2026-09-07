@@ -9,7 +9,7 @@ import AdminAlertEmail from '@/emails/admin-alert'
 const resend = new Resend(process.env.RESEND_API_KEY)
 
 export async function POST(req: NextRequest) {
-  const { token, guestId, action } = await req.json()
+  const { token, guestId, action, details } = await req.json()
 
   if (!token || !guestId || !['confirm', 'decline'].includes(action)) {
     return NextResponse.json({ error: 'Invalid request' }, { status: 400 })
@@ -29,38 +29,50 @@ export async function POST(req: NextRequest) {
   }
 
   const newStatus = action === 'confirm' ? 'confirmed' : 'declined'
+  const statusUnchanged = guest.status === newStatus
 
-  // No change, don't re-send emails.
-  if (guest.status === newStatus) {
-    return NextResponse.json({ ok: true, unchanged: true })
+  // Build the update: status (if changed) + any details supplied on confirm.
+  const update: Record<string, unknown> = {}
+  if (!statusUnchanged) {
+    update.status = newStatus
+    if (action === 'confirm') update.rsvp_confirmed_at = new Date().toISOString()
+  }
+  if (action === 'confirm' && details) {
+    if (details.first_name) update.first_name = String(details.first_name).trim()
+    if (details.last_name != null) update.last_name = String(details.last_name).trim()
+    if (details.email) update.email = String(details.email).toLowerCase().trim()
+    if (details.instagram_handle) update.instagram_handle = String(details.instagram_handle).trim()
+    if (details.phone) update.phone = String(details.phone).trim()
   }
 
-  const update =
-    action === 'confirm'
-      ? { status: 'confirmed', rsvp_confirmed_at: new Date().toISOString() }
-      : { status: 'declined' }
+  if (Object.keys(update).length) {
+    const { error: updateError } = await db.from('guests').update(update).eq('id', guestId)
+    if (updateError) return NextResponse.json({ error: 'Failed to update' }, { status: 500 })
+  }
 
-  const { error: updateError } = await db.from('guests').update(update).eq('id', guestId)
+  // Merge for downstream emails (use any updated email/name).
+  const merged = { ...guest, ...update }
 
-  if (updateError) {
-    return NextResponse.json({ error: 'Failed to update' }, { status: 500 })
+  // Only email on an actual status change.
+  if (statusUnchanged) {
+    return NextResponse.json({ ok: true, unchanged: true })
   }
 
   // Send confirmation/declined email
   try {
     if (action === 'confirm') {
-      const html = await renderRsvpConfirmed(guest)
+      const html = await renderRsvpConfirmed(merged)
       await resend.emails.send({
         from: process.env.FROM_EMAIL!,
-        to: guest.email,
+        to: merged.email,
         subject: "You're confirmed, The Nanit Reset",
         html,
       })
     } else {
-      const html = await renderRsvpDeclined(guest)
+      const html = await renderRsvpDeclined(merged)
       await resend.emails.send({
         from: process.env.FROM_EMAIL!,
-        to: guest.email,
+        to: merged.email,
         subject: "Thank you, The Nanit Reset",
         html,
       })
@@ -72,11 +84,11 @@ export async function POST(req: NextRequest) {
   // Admin alert
   try {
     if (process.env.ADMIN_NOTIFY_EMAIL) {
-      const alertHtml = await render(createElement(AdminAlertEmail, { guest, action: action === 'confirm' ? 'confirmed' : 'declined' }))
+      const alertHtml = await render(createElement(AdminAlertEmail, { guest: merged, action: action === 'confirm' ? 'confirmed' : 'declined' }))
       await resend.emails.send({
         from: process.env.FROM_EMAIL!,
         to: process.env.ADMIN_NOTIFY_EMAIL,
-        subject: `${guest.first_name} ${guest.last_name} has ${action === 'confirm' ? 'confirmed ✓' : 'declined ✗'}, The Nanit Reset`,
+        subject: `${merged.first_name} ${merged.last_name} has ${action === 'confirm' ? 'confirmed ✓' : 'declined ✗'}, The Nanit Reset`,
         html: alertHtml,
       })
     }

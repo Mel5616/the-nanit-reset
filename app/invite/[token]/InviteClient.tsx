@@ -74,6 +74,14 @@ const CSS = `
 .nrinv .btn.ghost{ background:transparent; color:var(--midnight); border:1px solid rgba(45,73,119,.35); box-shadow:none; }
 .nrinv .btn:disabled{ opacity:.5; cursor:default; }
 .nrinv .rsvp-sub{ font-size:var(--x325); line-height:1.45; opacity:.65; margin:2.5mm 0 0; }
+.nrinv .rform{ max-width:340px; margin:0 auto; display:flex; flex-direction:column; gap:8px; text-align:left; }
+.nrinv .rform input{ width:100%; font-family:var(--text); font-size:var(--x3); color:var(--bedtime); background:rgba(255,255,255,.55); border:1px solid rgba(45,73,119,.22); border-radius:10px; padding:10px 13px; outline:none; }
+.nrinv .rform input:focus{ border-color:var(--lullaby); background:#fff; }
+.nrinv .rform input::placeholder{ color:rgba(45,73,119,.45); }
+.nrinv .rform .row{ display:flex; gap:8px; }
+.nrinv .rform .row input{ flex:1; }
+.nrinv .rform .actions{ display:flex; gap:8px; margin-top:4px; }
+.nrinv .rform .actions .btn{ flex:1; text-align:center; }
 .nrinv .rsvp-note{ font-family:var(--display); font-style:italic; font-size:var(--x2); color:var(--bedtime); margin:0 0 1.5mm; }
 .nrinv .band{ background:var(--midnight); background-image:${SQUIRCLE('0.05')}; background-size:62px 62px; background-position:center; color:var(--cream); padding:5mm 13mm; position:relative; flex:0 0 auto; overflow:hidden; }
 .nrinv .band-shapes{ position:absolute; inset:0; width:100%; height:100%; display:block; }
@@ -138,24 +146,41 @@ export default function InviteClient({ guest, preview = false }: { guest: Guest;
   const guestName = `${guest.first_name} ${guest.last_name}`.trim()
   const firstName = guest.first_name
   const [replayKey, setReplayKey] = useState(0)
-  const [reply, setReply] = useState<'idle' | 'confirmed' | 'declined'>(
+  const [reply, setReply] = useState<'idle' | 'form' | 'confirmed' | 'declined'>(
     guest.status === 'confirmed' ? 'confirmed' : guest.status === 'declined' ? 'declined' : 'idle'
   )
   const [loading, setLoading] = useState<'confirm' | 'decline' | null>(null)
-  const [error, setError] = useState(false)
+  const [error, setError] = useState<string | null>(null)
 
-  async function respond(action: 'confirm' | 'decline') {
+  // Details collected at RSVP.
+  const [fName, setFName] = useState(guest.first_name || '')
+  const [lName, setLName] = useState(guest.last_name || '')
+  const [fEmail, setFEmail] = useState(guest.email || '')
+  const [fInsta, setFInsta] = useState(guest.instagram_handle || '')
+  const [fPhone, setFPhone] = useState(guest.phone || '')
+
+  async function respond(action: 'confirm' | 'decline', details?: Record<string, string>) {
     if (preview) { setReply(action === 'confirm' ? 'confirmed' : 'declined'); return }
-    setLoading(action); setError(false)
+    setLoading(action); setError(null)
     try {
       const res = await fetch('/api/confirm-rsvp', {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ token: guest.invite_token, guestId: guest.id, action }),
+        body: JSON.stringify({ token: guest.invite_token, guestId: guest.id, action, details }),
       })
       if (!res.ok) throw new Error()
       setReply(action === 'confirm' ? 'confirmed' : 'declined')
-    } catch { setError(true) }
+    } catch { setError('Something went wrong. Please try again.') }
     setLoading(null)
+  }
+
+  function submitDetails(e: React.FormEvent) {
+    e.preventDefault()
+    if (!fName.trim()) { setError('Please enter your name.'); return }
+    if (!fEmail.trim() || !fEmail.includes('@')) { setError('Please enter a valid email.'); return }
+    respond('confirm', {
+      first_name: fName.trim(), last_name: lName.trim(),
+      email: fEmail.trim(), instagram_handle: fInsta.trim(), phone: fPhone.trim(),
+    })
   }
 
   return (
@@ -206,15 +231,34 @@ export default function InviteClient({ guest, preview = false }: { guest: Guest;
                 <>
                   <p className="rsvp-main">Will you join us{firstName ? `, ${firstName}` : ''}?</p>
                   <div className="btnrow">
-                    <button className="btn" onClick={() => respond('confirm')} disabled={!!loading}>
-                      {loading === 'confirm' ? 'Just a moment…' : "Delighted, I'll be there"}
+                    <button className="btn" onClick={() => { setError(null); setReply('form') }} disabled={!!loading}>
+                      Delighted, I&apos;ll be there
                     </button>
                     <button className="btn ghost" onClick={() => respond('decline')} disabled={!!loading}>
-                      Sadly can&apos;t make it
+                      {loading === 'decline' ? 'One moment…' : "Sadly can't make it"}
                     </button>
                   </div>
                   <p className="rsvp-sub">An intimate gathering with limited places. RSVP by Wednesday 4 November. Adults only.</p>
-                  {error && <p className="rsvp-sub" style={{ color: '#C0392B', opacity: 1 }}>Something went wrong. Please try again.</p>}
+                  {error && <p className="rsvp-sub" style={{ color: '#C0392B', opacity: 1 }}>{error}</p>}
+                </>
+              )}
+              {reply === 'form' && (
+                <>
+                  <p className="rsvp-main">Wonderful. Just your details.</p>
+                  <form className="rform" onSubmit={submitDetails}>
+                    <div className="row">
+                      <input placeholder="First name" value={fName} onChange={e => setFName(e.target.value)} autoComplete="given-name" />
+                      <input placeholder="Last name" value={lName} onChange={e => setLName(e.target.value)} autoComplete="family-name" />
+                    </div>
+                    <input type="email" placeholder="Email" value={fEmail} onChange={e => setFEmail(e.target.value)} autoComplete="email" />
+                    <input placeholder="Instagram handle" value={fInsta} onChange={e => setFInsta(e.target.value)} />
+                    <input type="tel" placeholder="Phone number" value={fPhone} onChange={e => setFPhone(e.target.value)} autoComplete="tel" />
+                    {error && <p className="rsvp-sub" style={{ color: '#C0392B', opacity: 1, margin: '0' }}>{error}</p>}
+                    <div className="actions">
+                      <button type="button" className="btn ghost" onClick={() => { setError(null); setReply('idle') }}>Back</button>
+                      <button type="submit" className="btn" disabled={!!loading}>{loading === 'confirm' ? 'Confirming…' : 'Confirm my place'}</button>
+                    </div>
+                  </form>
                 </>
               )}
               {reply === 'confirmed' && (

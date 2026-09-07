@@ -280,6 +280,7 @@ export default function AdminDashboard({
                   <th className="px-4 py-3">Name</th>
                   <th className="px-4 py-3">Audience</th>
                   <th className="px-4 py-3">Company / Handle</th>
+                  <th className="px-4 py-3">Phone</th>
                   <th className="px-4 py-3">Status</th>
                   <th className="px-4 py-3">Dietary</th>
                   <th className="px-4 py-3">Goody Bag</th>
@@ -298,6 +299,7 @@ export default function AdminDashboard({
                     </td>
                     <td className="px-4 py-3 text-gray-600 whitespace-nowrap">{audienceLabels[g.audience_type]}</td>
                     <td className="px-4 py-3 text-gray-500">{g.company || g.instagram_handle || '—'}</td>
+                    <td className="px-4 py-3 text-gray-500 whitespace-nowrap">{g.phone || '—'}</td>
                     <td className="px-4 py-3"><StatusBadge status={g.status} /></td>
                     <td className="px-4 py-3">
                       {g.dietary_requirements

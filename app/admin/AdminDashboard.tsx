@@ -157,9 +157,40 @@ export default function AdminDashboard({
         </div>
       </header>
 
-      <div className="max-w-7xl mx-auto px-6 py-8">
+      <div className="max-w-[1400px] mx-auto px-4 md:px-6 py-6 md:flex md:gap-6">
+        {/* Sidebar navigation */}
+        <aside className="md:w-56 md:shrink-0 mb-4 md:mb-0">
+          <nav className="flex md:flex-col gap-1 bg-white rounded-2xl p-2 shadow-sm overflow-x-auto md:overflow-visible md:sticky md:top-6" style={{ scrollbarWidth: 'none' }}>
+            {([
+              ['guests', 'Guests'],
+              ['send', `Send (${uninvited.length})`],
+              ['comms', 'Comms'],
+              ['influencer', 'Creators'],
+              ['speakers', 'Speakers'],
+              ['vendors', 'Vendors'],
+              ['planning', 'Planning'],
+              ['goody', 'Goody bags'],
+              ['budget', 'Budget'],
+              ['giveaway', 'Giveaway'],
+              ['referrals', 'Referrals'],
+              ['feedback', 'Feedback'],
+              ['wrap', 'Wrap report'],
+            ] as const).map(([t, label]) => (
+              <button key={t} onClick={() => setTab(t)}
+                className="text-left px-3.5 py-2.5 rounded-xl text-sm font-medium transition-all whitespace-nowrap md:w-full"
+                style={tab === t ? { background: NAVY, color: '#fff' } : { color: '#6B7280' }}>
+                {label}
+              </button>
+            ))}
+          </nav>
+        </aside>
+
+        {/* Main content */}
+        <main className="flex-1 min-w-0">
+        {tab === 'guests' && (
+        <>
         {/* Stats */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
           {[
             { label: 'Total guests', value: stats.total },
             { label: 'Invites sent', value: stats.invited },
@@ -195,30 +226,8 @@ export default function AdminDashboard({
           </div>
         </div>
 
-        {/* Tabs — scrollable on mobile */}
-        <div className="flex gap-1 mb-6 bg-white rounded-xl p-1 shadow-sm overflow-x-auto" style={{ WebkitOverflowScrolling: 'touch', scrollbarWidth: 'none' }}>
-          {([
-            ['guests', 'Guests'],
-            ['send', `Send (${uninvited.length})`],
-            ['comms', 'Comms'],
-            ['influencer', 'Creators'],
-            ['speakers', 'Speakers'],
-            ['vendors', 'Vendors'],
-            ['planning', 'Planning'],
-            ['goody', 'Goody bags'],
-            ['budget', 'Budget'],
-            ['giveaway', 'Giveaway'],
-            ['referrals', 'Referrals'],
-            ['feedback', 'Feedback'],
-            ['wrap', 'Wrap report'],
-          ] as const).map(([t, label]) => (
-            <button key={t} onClick={() => setTab(t)}
-              className="px-4 py-2 rounded-lg text-sm font-medium transition-all whitespace-nowrap"
-              style={tab === t ? { background: NAVY, color: '#fff' } : { color: '#6B7280' }}>
-              {label}
-            </button>
-          ))}
-        </div>
+        </>
+        )}
 
         {tab === 'guests' && (
           <div className="bg-white rounded-2xl shadow-sm overflow-hidden">
@@ -416,6 +425,7 @@ export default function AdminDashboard({
             </div>
           </div>
         )}
+        </main>
       </div>
     </div>
   )

@@ -1,8 +1,12 @@
 'use client'
 
 import { useState } from 'react'
-import { Guest, AudienceType } from '@/lib/supabase'
-import { audienceLabels, inviteContent } from '@/lib/invite-content'
+import { Guest } from '@/lib/supabase'
+import { audienceLabels } from '@/lib/invite-content'
+
+// One invitation for every guest.
+const HOOK = 'A morning to pause, listen and reset.'
+const SUB = 'Three hours of calm in the middle of a Sydney Monday, in conversation with Dr Natalie Barnett.'
 
 const NAVY = '#111D41'
 const BLUE = '#6681AB'
@@ -37,10 +41,10 @@ const EMAIL_TYPES = [
   {
     id: 'invitation',
     name: 'Invitation email',
-    description: 'Sent when you click Send from the Send invitations tab. Personalised per audience type.',
+    description: 'Sent when you click Send from the Send invitations tab. One invitation for all guests.',
     trigger: 'Manual, sent by Coolkidz team',
     subject: "You're invited, The Nanit Reset, 16 November 2026",
-    audiences: true,
+    audiences: false,
     sendable: false,
   },
   {
@@ -75,7 +79,6 @@ const EMAIL_TYPES = [
 
 function EmailPreviewCard({ guests }: { guests: Guest[] }) {
   const [open, setOpen] = useState<string | null>(null)
-  const [selectedAudience, setSelectedAudience] = useState<AudienceType>('influencer')
   const [sending, setSending] = useState<string | null>(null)
   const [sendResult, setSendResult] = useState<Record<string, string>>({})
 
@@ -97,7 +100,7 @@ function EmailPreviewCard({ guests }: { guests: Guest[] }) {
     <div className="space-y-3">
       {EMAIL_TYPES.map(email => {
         const isOpen = open === email.id
-        const content = inviteContent[selectedAudience]
+        const content = { hook: HOOK, sub: SUB }
 
         return (
           <div key={email.id} className="rounded-xl border border-gray-100 overflow-hidden">
@@ -132,25 +135,6 @@ function EmailPreviewCard({ guests }: { guests: Guest[] }) {
                   <p className="mb-2">{email.description}</p>
                   <p><span className="font-medium" style={{ color: NAVY }}>Subject:</span> {email.subject}</p>
                 </div>
-
-                {email.audiences && (
-                  <div className="px-5 py-3 border-t border-gray-100">
-                    <p className="text-xs uppercase tracking-widest mb-2" style={{ color: BLUE, fontFamily: 'NeuePlak, sans-serif' }}>Preview by audience</p>
-                    <div className="flex flex-wrap gap-2">
-                      {(Object.keys(audienceLabels) as AudienceType[]).map(k => (
-                        <button
-                          key={k}
-                          onClick={() => setSelectedAudience(k)}
-                          className="px-3 py-1.5 rounded-full text-xs border transition-all"
-                          style={selectedAudience === k
-                            ? { background: NAVY, color: '#fff', borderColor: NAVY }
-                            : { color: '#6B7280', borderColor: '#E5E7EB' }}>
-                          {audienceLabels[k]}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-                )}
 
                 {/* Email preview */}
                 <div className="border-t border-gray-100" style={{ background: NAVY }}>
@@ -327,7 +311,7 @@ export default function Communications({ guests }: { guests: Guest[] }) {
       {/* Email templates */}
       <SectionCard title="Email templates">
         <p className="text-sm mb-5" style={{ color: '#6B7280' }}>
-          Preview how each email looks before sending. Click an email to expand and see the full template, the invitation email can be previewed per audience type.
+          Preview how each email looks before sending. Click an email to expand and see the full template.
         </p>
         <EmailPreviewCard guests={guests} />
       </SectionCard>

@@ -2,14 +2,16 @@ import {
   Html, Head, Body, Container, Section, Text, Button, Hr, Preview, Img
 } from '@react-email/components'
 import { Guest } from '@/lib/supabase'
-import { inviteContent } from '@/lib/invite-content'
 
 const NAVY = '#1C2B4A'
 const BLUE = '#4A7FA5'
 const WHITE = '#FFFFFF'
 
+// One invitation for every guest.
+const HOOK = 'A morning to pause, listen and reset.'
+const SUB = 'Three hours of calm in the middle of a Sydney Monday, in conversation with Dr Natalie Barnett.'
+
 export default function InvitationEmail({ guest, baseUrl }: { guest: Guest; baseUrl: string }) {
-  const content = inviteContent[guest.audience_type]
   const inviteUrl = `${baseUrl}/invite/${guest.invite_token}`
 
   return (
@@ -39,10 +41,10 @@ export default function InvitationEmail({ guest, baseUrl }: { guest: Guest; base
 
           {/* Hook */}
           <Text style={{ color: WHITE, fontSize: '22px', fontWeight: '300', textAlign: 'center', lineHeight: '1.5', margin: '0 0 16px' }}>
-            {content.hook}
+            {HOOK}
           </Text>
           <Text style={{ color: 'rgba(255,255,255,0.6)', fontSize: '16px', textAlign: 'center', lineHeight: '1.6', margin: '0 0 48px' }}>
-            {content.sub}
+            {SUB}
           </Text>
 
           {/* Event details */}

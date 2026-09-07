@@ -14,7 +14,7 @@ async function getGuest(token: string): Promise<Guest | null> {
 
 // A sample guest used for the dashboard "Preview invitation" link.
 const PREVIEW_GUEST = {
-  id: 'preview', invite_token: 'preview', first_name: 'Amelia', last_name: 'Hartley',
+  id: 'preview', invite_token: 'preview', first_name: 'Dorothee', last_name: '',
   status: 'invited', email: '', audience_type: 'influencer',
 } as unknown as Guest
 

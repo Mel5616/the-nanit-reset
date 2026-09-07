@@ -12,8 +12,19 @@ async function getGuest(token: string): Promise<Guest | null> {
   return data
 }
 
+// A sample guest used for the dashboard "Preview invitation" link.
+const PREVIEW_GUEST = {
+  id: 'preview', invite_token: 'preview', first_name: 'Amelia', last_name: 'Hartley',
+  status: 'invited', email: '', audience_type: 'influencer',
+} as unknown as Guest
+
 export default async function InvitePage({ params }: { params: Promise<{ token: string }> }) {
   const { token } = await params
+
+  if (token === 'preview') {
+    return <InviteClient guest={PREVIEW_GUEST} preview />
+  }
+
   const guest = await getGuest(token)
 
   if (!guest) {

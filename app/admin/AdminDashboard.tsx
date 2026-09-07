@@ -17,6 +17,29 @@ import Referrals from './Referrals'
 const NAVY = '#111D41'
 const BLUE = '#6681AB'
 
+// Refined line icons for the section nav.
+const NAV_ICONS: Record<string, React.ReactNode> = {
+  guests:     <><circle cx="12" cy="8" r="3.2" /><path d="M5.5 20c0-3.6 2.9-6 6.5-6s6.5 2.4 6.5 6" /></>,
+  send:       <><path d="M22 2 11 13" /><path d="M22 2 15 22l-4-9-9-4 20-7Z" /></>,
+  comms:      <><rect x="3" y="5" width="18" height="14" rx="2" /><path d="m3 7 9 6 9-6" /></>,
+  influencer: <path d="M12 3l2.2 5.6L20 9l-4 3.9 1 6-5-3-5 3 1-6L4 9l5.8-.4z" />,
+  speakers:   <><rect x="9" y="3" width="6" height="11" rx="3" /><path d="M6 11a6 6 0 0 0 12 0" /><path d="M12 17v4" /></>,
+  vendors:    <><rect x="3" y="8" width="18" height="12" rx="2" /><path d="M8 8V6a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" /></>,
+  planning:   <><rect x="3" y="5" width="18" height="16" rx="2" /><path d="M3 9h18M8 3v4M16 3v4" /></>,
+  budget:     <><rect x="3" y="6" width="18" height="13" rx="2" /><path d="M3 10h18" /><circle cx="16.5" cy="13.5" r="1" /></>,
+  referrals:  <><circle cx="6" cy="12" r="2.4" /><circle cx="18" cy="6" r="2.4" /><circle cx="18" cy="18" r="2.4" /><path d="m8.2 10.9 7.6-3.7M8.2 13.1l7.6 3.7" /></>,
+  feedback:   <path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.4A8 8 0 1 1 21 12Z" />,
+  wrap:       <><rect x="4" y="3" width="16" height="18" rx="2" /><path d="M8 12v4M12 9v7M16 13v3" /></>,
+}
+
+function NavIcon({ id }: { id: string }) {
+  return (
+    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0, opacity: 0.85 }}>
+      {NAV_ICONS[id]}
+    </svg>
+  )
+}
+
 const statusColors: Record<GuestStatus, string> = {
   pending: '#D97706',
   invited: '#7C3AED',
@@ -136,6 +159,10 @@ export default function AdminDashboard({
             className="px-4 py-2 rounded-full text-white text-sm border border-white/20 hover:border-white/40">
             🏷 Badges
           </Link>
+          <a href="/invite/preview" target="_blank" rel="noopener noreferrer"
+            className="px-4 py-2 rounded-full text-white text-sm border border-white/20 hover:border-white/40">
+            ✉️ View invite
+          </a>
           <a href="/api/admin/export"
             className="px-4 py-2 rounded-full text-white/70 text-sm border border-white/20 hover:border-white/40">
             Export CSV
@@ -173,8 +200,9 @@ export default function AdminDashboard({
               ['wrap', 'Wrap report'],
             ] as const).map(([t, label]) => (
               <button key={t} onClick={() => setTab(t)}
-                className="text-left px-3.5 py-2.5 rounded-xl text-sm font-medium transition-all whitespace-nowrap md:w-full"
+                className="flex items-center gap-2.5 text-left px-3.5 py-2.5 rounded-xl text-sm font-medium transition-all whitespace-nowrap md:w-full"
                 style={tab === t ? { background: NAVY, color: '#fff' } : { color: '#6B7280' }}>
+                <NavIcon id={t} />
                 {label}
               </button>
             ))}
@@ -263,7 +291,11 @@ export default function AdminDashboard({
               <tbody>
                 {filtered.map((g, i) => (
                   <tr key={g.id} className={i % 2 === 0 ? 'bg-white' : 'bg-gray-50/50'}>
-                    <td className="px-4 py-3 font-medium text-gray-900 whitespace-nowrap">{g.first_name} {g.last_name}</td>
+                    <td className="px-4 py-3 font-medium text-gray-900 whitespace-nowrap">
+                      <a href={`/invite/${g.invite_token}`} target="_blank" rel="noopener noreferrer" className="hover:underline" title="View this guest's invitation" style={{ color: NAVY }}>
+                        {g.first_name} {g.last_name}
+                      </a>
+                    </td>
                     <td className="px-4 py-3 text-gray-600 whitespace-nowrap">{audienceLabels[g.audience_type]}</td>
                     <td className="px-4 py-3 text-gray-500">{g.company || g.instagram_handle || '—'}</td>
                     <td className="px-4 py-3"><StatusBadge status={g.status} /></td>

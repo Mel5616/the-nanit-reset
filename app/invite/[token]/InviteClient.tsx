@@ -19,7 +19,7 @@ const dotPattern =
      </svg>`
   )
 
-export default function InviteClient({ guest }: { guest: Guest }) {
+export default function InviteClient({ guest, preview = false }: { guest: Guest; preview?: boolean }) {
   const guestName = `${guest.first_name} ${guest.last_name}`.trim()
   const firstName = guest.first_name
 
@@ -43,6 +43,7 @@ export default function InviteClient({ guest }: { guest: Guest }) {
   }, [])
 
   async function respond(action: 'confirm' | 'decline') {
+    if (preview) { setReply(action === 'confirm' ? 'confirmed' : 'declined'); return }
     setLoading(action); setError(false)
     try {
       const res = await fetch('/api/confirm-rsvp', {
@@ -83,7 +84,7 @@ export default function InviteClient({ guest }: { guest: Guest }) {
             {/* envelope body */}
             <div style={{ position: 'absolute', inset: 0, top: '38%', background: ENV_NAVY, borderRadius: '4px 4px 10px 10px', zIndex: 2, overflow: 'hidden', boxShadow: '0 18px 50px rgba(17,29,65,0.28)' }}>
               <div style={{ position: 'absolute', inset: 0, backgroundImage: `url("${dotPattern}")`, backgroundSize: '54px 54px' }} />
-              <div style={{ position: 'absolute', left: 0, right: 0, bottom: '18%', textAlign: 'center' }}>
+              <div style={{ position: 'absolute', left: 0, right: 0, bottom: '9%', textAlign: 'center' }}>
                 <p style={{ ...serif, fontStyle: 'italic', color: '#EDE4D6', fontSize: 'clamp(20px,5vw,28px)', margin: 0 }}>{guestName}</p>
                 <div style={{ width: 34, height: 1, background: 'rgba(237,228,214,0.5)', margin: '12px auto' }} />
                 <p style={{ ...label, color: 'rgba(237,228,214,0.7)', fontSize: 10 }}>Private view</p>
@@ -91,7 +92,7 @@ export default function InviteClient({ guest }: { guest: Guest }) {
             </div>
             {/* top flap */}
             <div className="reveal-flap play" style={{ position: 'absolute', left: 0, right: 0, top: '38%', height: 0, zIndex: 3 }}>
-              <div style={{ position: 'absolute', left: 0, right: 0, top: 0, height: 130, clipPath: 'polygon(0 0, 100% 0, 50% 100%)', background: '#26406B', backfaceVisibility: 'hidden' }} />
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 0, height: 96, clipPath: 'polygon(0 0, 100% 0, 50% 100%)', background: '#26406B', backfaceVisibility: 'hidden' }} />
             </div>
           </div>
           <p style={{ ...label, color: BLUE, fontSize: 10, marginTop: 30 }}>Opening your invitation…</p>

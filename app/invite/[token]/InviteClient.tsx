@@ -6,13 +6,14 @@ import { Guest } from '@/lib/supabase'
 // Faithful port of the Nanit A5 invitation design.
 // Newsreader / Archivo are the designer's stand-ins for Cotford Text / Neue Plak.
 
-const CSS = `
-@import url('https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,400;0,500;0,600;1,400&family=Newsreader:ital,opsz,wght@0,6..72,200;0,6..72,300;1,6..72,200;1,6..72,300&display=swap');
+const SQUIRCLE = (op: string) =>
+  `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='62' height='62'%3E%3Cpath transform='translate(4,4)' d='M27 0C47.5 0 54 6.5 54 27C54 47.5 47.5 54 27 54C6.5 54 0 47.5 0 27C0 6.5 6.5 0 27 0Z' fill='%23F3EBE0' fill-opacity='${op}'/%3E%3C/svg%3E")`
 
+const CSS = `
 .nrinv{
   --lullaby:#6691A8; --midnight:#2D4977; --bedtime:#111D41; --cream:#F3EBE0;
-  --display:"Newsreader",Georgia,serif;
-  --text:"Archivo","Helvetica Neue",Arial,sans-serif;
+  --display:"Cotford",Georgia,serif;
+  --text:"NeuePlak","Helvetica Neue",Arial,sans-serif;
   --x1:clamp(25px,5.8vw,29px); --x2:clamp(15px,3.3vw,17px);
   --x3:clamp(12.5px,2.4vw,13.5px); --x325:clamp(11px,2.2vw,12.5px);
   --ease:cubic-bezier(.22,.61,.36,1);
@@ -74,7 +75,7 @@ const CSS = `
 .nrinv .btn:disabled{ opacity:.5; cursor:default; }
 .nrinv .rsvp-sub{ font-size:var(--x325); line-height:1.45; opacity:.65; margin:2.5mm 0 0; }
 .nrinv .rsvp-note{ font-family:var(--display); font-style:italic; font-size:var(--x2); color:var(--bedtime); margin:0 0 1.5mm; }
-.nrinv .band{ background:var(--midnight); color:var(--cream); padding:5mm 13mm; position:relative; flex:0 0 auto; overflow:hidden; }
+.nrinv .band{ background:var(--midnight); background-image:${SQUIRCLE('0.05')}; background-size:62px 62px; background-position:center; color:var(--cream); padding:5mm 13mm; position:relative; flex:0 0 auto; overflow:hidden; }
 .nrinv .band-shapes{ position:absolute; inset:0; width:100%; height:100%; display:block; }
 .nrinv .band-inner{ position:relative; display:flex; align-items:center; justify-content:space-between; gap:6mm; }
 .nrinv .band-lockup{ display:flex; align-items:center; gap:8px; }
@@ -97,7 +98,7 @@ const CSS = `
 .nrinv .env-mark{ width:31px; height:31px; display:block; }
 .nrinv .env-word{ font-family:var(--display); font-weight:300; font-size:24px; line-height:1; letter-spacing:-.005em; color:var(--cream); }
 .nrinv .env-skirt{ position:absolute; left:-100%; right:-100%; top:100%; height:130%; background-color:#E4DCD1; background-image:radial-gradient(258px 64px at 50% 0%, rgba(17,29,65,.32) 0%, rgba(17,29,65,0) 100%); background-repeat:no-repeat; }
-.nrinv .env-front{ position:absolute; left:0; right:0; bottom:0; height:58%; background:var(--midnight); border-top:1px solid rgba(102,145,168,.5); border-radius:0 0 3mm 3mm; box-shadow:0 2px 7px rgba(17,29,65,.16), inset 0 7px 16px rgba(17,29,65,.34); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:6px; }
+.nrinv .env-front{ position:absolute; left:0; right:0; bottom:0; height:58%; background:var(--midnight); background-image:${SQUIRCLE('0.06')}; background-size:62px 62px; background-position:center; border-top:1px solid rgba(102,145,168,.5); border-radius:0 0 3mm 3mm; box-shadow:0 2px 7px rgba(17,29,65,.16), inset 0 7px 16px rgba(17,29,65,.34); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:6px; }
 .nrinv .env-name{ font-family:var(--display); font-style:italic; font-weight:300; font-size:20px; color:#EDE4D6; }
 .nrinv .env-tag{ font-size:9px; letter-spacing:.24em; text-transform:uppercase; color:rgba(237,228,214,.6); }
 

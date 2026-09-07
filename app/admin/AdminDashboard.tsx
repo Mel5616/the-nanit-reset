@@ -283,8 +283,6 @@ export default function AdminDashboard({
                   <th className="px-4 py-3">Phone</th>
                   <th className="px-4 py-3">Status</th>
                   <th className="px-4 py-3">Dietary</th>
-                  <th className="px-4 py-3">Goody Bag</th>
-                  <th className="px-4 py-3">Speaker</th>
                   <th className="px-4 py-3">Notes</th>
                   <th className="px-4 py-3">Added</th>
                 </tr>
@@ -304,16 +302,6 @@ export default function AdminDashboard({
                     <td className="px-4 py-3">
                       {g.dietary_requirements
                         ? <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-amber-50 text-amber-700 border border-amber-200">{g.dietary_requirements}</span>
-                        : <span className="text-gray-300">—</span>}
-                    </td>
-                    <td className="px-4 py-3">
-                      {g.goody_bag
-                        ? <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-blue-50 text-blue-700 border border-blue-200">{g.goody_bag}</span>
-                        : <span className="text-gray-300">—</span>}
-                    </td>
-                    <td className="px-4 py-3 text-center">
-                      {g.speaker_session
-                        ? <span title="One-on-one with Dr Natalie" className="inline-block w-5 h-5 rounded-full text-white text-xs flex items-center justify-center" style={{ background: BLUE }}>✓</span>
                         : <span className="text-gray-300">—</span>}
                     </td>
                     <td className="px-4 py-3 text-gray-400 text-xs max-w-xs truncate">{g.notes || '—'}</td>

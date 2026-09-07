@@ -5,14 +5,12 @@ import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { Guest, AudienceType, GuestStatus } from '@/lib/supabase'
 import EventPlanning from './EventPlanning'
-import GoodyBags from './GoodyBags'
 import Communications from './Communications'
 import Budget from './Budget'
 import InfluencerTracking from './InfluencerTracking'
 import WrapReport from './WrapReport'
 import Vendors from './Vendors'
 import Speakers from './Speakers'
-import Giveaway from './Giveaway'
 import Feedback from './Feedback'
 import Referrals from './Referrals'
 
@@ -55,7 +53,7 @@ export default function AdminDashboard({
   currentAdmin: { id: string | null; email: string | null; name: string | null; role: 'owner' | 'manager' | 'viewer' | 'door' }
 }) {
   const router = useRouter()
-  const [tab, setTab] = useState<'guests' | 'send' | 'comms' | 'influencer' | 'speakers' | 'vendors' | 'planning' | 'goody' | 'budget' | 'giveaway' | 'referrals' | 'feedback' | 'wrap'>('guests')
+  const [tab, setTab] = useState<'guests' | 'send' | 'comms' | 'influencer' | 'speakers' | 'vendors' | 'planning' | 'budget' | 'referrals' | 'feedback' | 'wrap'>('guests')
   const [filterStatus, setFilterStatus] = useState<GuestStatus | 'all'>('all')
   const [filterAudience, setFilterAudience] = useState<AudienceType | 'all'>('all')
   const [selected, setSelected] = useState<Set<string>>(new Set())
@@ -169,9 +167,7 @@ export default function AdminDashboard({
               ['speakers', 'Speakers'],
               ['vendors', 'Vendors'],
               ['planning', 'Planning'],
-              ['goody', 'Goody bags'],
               ['budget', 'Budget'],
-              ['giveaway', 'Giveaway'],
               ['referrals', 'Referrals'],
               ['feedback', 'Feedback'],
               ['wrap', 'Wrap report'],
@@ -303,9 +299,7 @@ export default function AdminDashboard({
         {tab === 'speakers' && <Speakers />}
         {tab === 'vendors' && <Vendors />}
         {tab === 'planning' && <EventPlanning />}
-        {tab === 'goody' && <GoodyBags />}
         {tab === 'budget' && <Budget />}
-        {tab === 'giveaway' && <Giveaway />}
         {tab === 'referrals' && <Referrals />}
         {tab === 'feedback' && <Feedback />}
         {tab === 'wrap' && <WrapReport guests={guests} />}

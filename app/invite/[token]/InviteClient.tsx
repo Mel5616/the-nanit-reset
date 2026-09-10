@@ -25,18 +25,17 @@ const CSS = `
 
 /* ---------------- envelope (tap to open) ---------------- */
 .nrinv .scene{ display:flex; flex-direction:column; align-items:center; gap:26px; animation:fadeIn .6s ease; }
-.nrinv .env{ position:relative; width:min(440px,88vw); height:calc(min(440px,88vw)*0.66); perspective:1600px; cursor:pointer; }
-.nrinv .env-back{ position:absolute; inset:0; background:#26406B; border-radius:9px; box-shadow:0 20px 55px rgba(17,29,65,.30); }
-.nrinv .env-liner{ position:absolute; left:0; right:0; top:0; height:62%; background:#33538A; background-image:${SQUIRCLE('0.05')}; background-size:52px 52px; border-radius:9px 9px 0 0; }
-.nrinv .env-card{ position:absolute; left:5.5%; right:5.5%; top:4%; height:118%; background:linear-gradient(180deg,#FBF8F3,#F3EBE0); border-radius:8px; box-shadow:0 12px 30px rgba(17,29,65,.18); z-index:2; transition:transform 1.05s var(--ease), opacity .5s ease .5s; }
-.nrinv .env-front{ position:absolute; left:0; right:0; bottom:0; height:60%; background:var(--midnight); background-image:${SQUIRCLE('0.06')}; background-size:62px 62px; background-position:center; border-radius:0 0 9px 9px; border-top:1px solid rgba(102,145,168,.5); box-shadow:inset 0 8px 16px rgba(17,29,65,.34); z-index:3; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:6px; padding-top:26px; transition:opacity .4s ease; }
+.nrinv .env{ position:relative; width:min(430px,86vw); height:calc(min(430px,86vw)*0.66); perspective:1600px; cursor:pointer; }
+.nrinv .env-back{ position:absolute; inset:0; background:linear-gradient(180deg,#2C4874,#22385F); border-radius:10px; box-shadow:0 24px 55px rgba(17,29,65,.30); }
+.nrinv .env-card{ position:absolute; left:6%; right:6%; top:45%; height:60%; background:linear-gradient(180deg,#FBF8F3,#F1E9DE); border-radius:6px; box-shadow:0 5px 16px rgba(17,29,65,.14); z-index:2; transition:transform 1.05s var(--ease), opacity .5s ease .45s; }
+.nrinv .env-front{ position:absolute; left:0; right:0; bottom:0; height:55%; background-color:var(--midnight); background-image:${SQUIRCLE('0.06')}; background-size:62px 62px; background-position:center; border-radius:0 0 10px 10px; box-shadow:inset 0 12px 22px rgba(17,29,65,.32); z-index:3; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:6px; padding-top:20px; transition:opacity .4s ease; }
 .nrinv .env-name{ font-family:var(--display); font-style:italic; font-weight:300; font-size:clamp(19px,5vw,24px); color:#EDE4D6; padding:0 12px; text-align:center; }
-.nrinv .env-tag{ font-size:9.5px; letter-spacing:.24em; text-transform:uppercase; color:rgba(237,228,214,.62); }
-.nrinv .env-flap{ position:absolute; top:0; left:0; right:0; height:60%; background:#2F4E85; clip-path:polygon(0 0,100% 0,50% 100%); transform-origin:top center; transform:rotateX(0deg); transition:transform .95s var(--ease), z-index 0s .5s; z-index:5; backface-visibility:hidden; }
-.nrinv .env-seal{ position:absolute; top:calc(60% - 28px); left:50%; transform:translateX(-50%); width:42px; height:42px; border-radius:50%; background:radial-gradient(circle at 35% 30%, #7BA0B4, var(--lullaby)); display:flex; align-items:center; justify-content:center; z-index:6; box-shadow:0 3px 9px rgba(17,29,65,.34); transition:opacity .3s ease, transform .5s var(--ease); }
+.nrinv .env-tag{ font-size:9.5px; letter-spacing:.24em; text-transform:uppercase; color:rgba(237,228,214,.6); }
+.nrinv .env-flap{ position:absolute; top:0; left:0; right:0; height:56%; background:linear-gradient(180deg,#35568D,#2A4880); clip-path:polygon(0 0,100% 0,50% 100%); transform-origin:top center; transform:rotateX(0deg); transition:transform .95s var(--ease), z-index 0s .5s; z-index:5; backface-visibility:hidden; filter:drop-shadow(0 5px 6px rgba(17,29,65,.22)); }
+.nrinv .env-seal{ position:absolute; top:calc(48% - 21px); left:50%; transform:translateX(-50%); width:42px; height:42px; border-radius:50%; background:radial-gradient(circle at 35% 30%, #7BA0B4, var(--lullaby)); display:flex; align-items:center; justify-content:center; z-index:6; box-shadow:0 3px 9px rgba(17,29,65,.34); transition:opacity .3s ease, transform .5s var(--ease); }
 .nrinv .env-seal svg{ width:22px; height:22px; }
-.nrinv .env.opening .env-flap{ transform:rotateX(-168deg); z-index:1; }
-.nrinv .env.opening .env-card{ transform:translateY(-64%); }
+.nrinv .env.opening .env-flap{ transform:rotateX(-172deg); z-index:1; filter:none; }
+.nrinv .env.opening .env-card{ transform:translateY(-152%); }
 .nrinv .env.opening .env-front,
 .nrinv .env.opening .env-name,
 .nrinv .env.opening .env-tag{ opacity:0; }
@@ -169,7 +168,6 @@ export default function InviteClient({ guest, preview = false }: { guest: Guest;
         <div className="scene">
           <div className={`env ${phase === 'opening' ? 'opening' : ''}`} onClick={open} role="button" aria-label="Open your invitation">
             <div className="env-back" />
-            <div className="env-liner" />
             <div className="env-card" />
             <div className="env-front">
               <div className="env-name">{guestName || 'Your invitation'}</div>

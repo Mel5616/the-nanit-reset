@@ -17,7 +17,7 @@ const CSS = `
   --x1:clamp(25px,5.8vw,29px); --x2:clamp(15px,3.3vw,17px);
   --x3:clamp(12.5px,2.4vw,13.5px); --x325:clamp(11px,2.2vw,12.5px);
   --ease:cubic-bezier(.22,.61,.36,1);
-  min-height:100vh; margin:0; background:#E4DCD1; color:var(--midnight);
+  min-height:100vh; margin:0; background:radial-gradient(125% 90% at 50% 8%, #ECE4D8 0%, #E4DCD1 52%, #D9D0C3 100%); color:var(--midnight);
   font-family:var(--text); -webkit-font-smoothing:antialiased;
   display:flex; flex-direction:column; align-items:center; justify-content:center; padding:24px 14px;
 }
@@ -25,21 +25,25 @@ const CSS = `
 
 /* ---------------- envelope (tap to open) ---------------- */
 .nrinv .scene{ display:flex; flex-direction:column; align-items:center; gap:26px; animation:fadeIn .6s ease; }
-.nrinv .env{ position:relative; width:min(430px,86vw); height:calc(min(430px,86vw)*0.66); perspective:1600px; cursor:pointer; }
-.nrinv .env-back{ position:absolute; inset:0; background:linear-gradient(180deg,#2C4874,#22385F); border-radius:10px; box-shadow:0 24px 55px rgba(17,29,65,.30); }
-.nrinv .env-card{ position:absolute; left:6%; right:6%; top:45%; height:60%; background:linear-gradient(180deg,#FBF8F3,#F1E9DE); border-radius:6px; box-shadow:0 5px 16px rgba(17,29,65,.14); z-index:2; transition:transform 1.05s var(--ease), opacity .5s ease .45s; }
-.nrinv .env-front{ position:absolute; left:0; right:0; bottom:0; height:55%; background-color:var(--midnight); background-image:${SQUIRCLE('0.06')}; background-size:62px 62px; background-position:center; border-radius:0 0 10px 10px; box-shadow:inset 0 12px 22px rgba(17,29,65,.32); z-index:3; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:6px; padding-top:20px; transition:opacity .4s ease; }
-.nrinv .env-name{ font-family:var(--display); font-style:italic; font-weight:300; font-size:clamp(19px,5vw,24px); color:#EDE4D6; padding:0 12px; text-align:center; }
-.nrinv .env-tag{ font-size:9.5px; letter-spacing:.24em; text-transform:uppercase; color:rgba(237,228,214,.6); }
-.nrinv .env-flap{ position:absolute; top:0; left:0; right:0; height:56%; background:linear-gradient(180deg,#35568D,#2A4880); clip-path:polygon(0 0,100% 0,50% 100%); transform-origin:top center; transform:rotateX(0deg); transition:transform .95s var(--ease), z-index 0s .5s; z-index:5; backface-visibility:hidden; filter:drop-shadow(0 5px 6px rgba(17,29,65,.22)); }
-.nrinv .env-seal{ position:absolute; top:calc(48% - 21px); left:50%; transform:translateX(-50%); width:42px; height:42px; border-radius:50%; background:radial-gradient(circle at 35% 30%, #7BA0B4, var(--lullaby)); display:flex; align-items:center; justify-content:center; z-index:6; box-shadow:0 3px 9px rgba(17,29,65,.34); transition:opacity .3s ease, transform .5s var(--ease); }
-.nrinv .env-seal svg{ width:22px; height:22px; }
-.nrinv .env.opening .env-flap{ transform:rotateX(-172deg); z-index:1; filter:none; }
-.nrinv .env.opening .env-card{ transform:translateY(-152%); }
+.nrinv .env{ position:relative; width:min(430px,86vw); height:calc(min(430px,86vw)*0.66); perspective:1700px; cursor:pointer; animation:envIn .85s var(--ease) both; }
+@keyframes envIn{ from{ opacity:0; transform:translateY(20px) scale(.955); } to{ opacity:1; transform:none; } }
+.nrinv .env-back{ position:absolute; inset:0; background:linear-gradient(180deg,#2C4874,#22385F); border-radius:11px; box-shadow:0 34px 64px -18px rgba(17,29,65,.46), 0 10px 22px rgba(17,29,65,.20); }
+.nrinv .env-card{ position:absolute; left:6.5%; right:6.5%; top:48%; height:56%; background:linear-gradient(178deg,#FCF9F4,#F0E7DB); border-radius:6px; box-shadow:0 6px 18px rgba(17,29,65,.16); z-index:2; }
+.nrinv .env-front{ position:absolute; left:0; right:0; bottom:0; height:55%; background-color:var(--midnight); background-image:${SQUIRCLE('0.06')}; background-size:62px 62px; background-position:center; border-radius:0 0 11px 11px; box-shadow:inset 0 15px 24px -8px rgba(17,29,65,.55); z-index:3; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:6px; padding-top:22px; transition:opacity .5s ease; }
+.nrinv .env-name{ position:relative; z-index:1; font-family:var(--display); font-style:italic; font-weight:300; font-size:clamp(19px,5vw,24px); color:#EFE7DA; padding:0 12px; text-align:center; text-shadow:0 1px 2px rgba(17,29,65,.35); }
+.nrinv .env-tag{ position:relative; z-index:1; font-size:9.5px; letter-spacing:.24em; text-transform:uppercase; color:rgba(239,231,218,.62); }
+/* Static liner revealed as the flap lifts (no fragile double-sided 3D). */
+.nrinv .env-liner{ position:absolute; top:0; left:0; right:0; height:56%; clip-path:polygon(0 0,100% 0,50% 100%); background:linear-gradient(180deg,#CBDDEC,#AECADF); z-index:4; }
+.nrinv .env-flap{ position:absolute; top:0; left:0; right:0; height:56%; background:linear-gradient(180deg,#38598F,#2A4880); clip-path:polygon(0 0,100% 0,50% 100%); transform-origin:top center; transform:rotateX(0deg); transition:transform .9s var(--ease); z-index:5; backface-visibility:hidden; box-shadow:0 6px 10px -4px rgba(17,29,65,.35); }
+.nrinv .env-seal{ position:absolute; top:calc(48% - 22px); left:50%; transform:translateX(-50%); width:44px; height:44px; border-radius:50%; background:radial-gradient(circle at 34% 28%, #86A9BC 0%, #6691A8 55%, #547E96 100%); display:flex; align-items:center; justify-content:center; z-index:6; box-shadow:0 4px 10px rgba(17,29,65,.4), inset 0 1px 2px rgba(255,255,255,.4), inset 0 -2px 4px rgba(17,29,65,.35); transition:opacity .3s ease, transform .5s var(--ease); }
+.nrinv .env-seal svg{ width:22px; height:22px; filter:drop-shadow(0 1px 1px rgba(17,29,65,.3)); }
+.nrinv .env.opening .env-flap{ transform:rotateX(-165deg); }
+.nrinv .env.opening .env-card{ animation:cardRise 1.15s var(--ease) .8s forwards; }
+@keyframes cardRise{ 0%{ transform:translateY(0) scale(1);} 78%{ transform:translateY(-172%) scale(1.015);} 100%{ transform:translateY(-166%) scale(1.015);} }
 .nrinv .env.opening .env-front,
 .nrinv .env.opening .env-name,
 .nrinv .env.opening .env-tag{ opacity:0; }
-.nrinv .env.opening .env-seal{ opacity:0; transform:translateX(-50%) scale(.7); }
+.nrinv .env.opening .env-seal{ opacity:0; transform:translateX(-50%) translateY(-6px) scale(.7); }
 .nrinv .env.opening{ cursor:default; }
 .nrinv .openhint{ display:inline-flex; align-items:center; gap:8px; background:var(--midnight); color:var(--cream); font-family:var(--text); font-weight:500; font-size:13px; letter-spacing:.02em; border:0; border-radius:999px; padding:12px 24px; cursor:pointer; box-shadow:0 4px 14px rgba(17,29,65,.22); animation:bob 2.4s ease-in-out infinite; }
 .nrinv .openhint:hover{ background:var(--bedtime); }
@@ -133,7 +137,7 @@ export default function InviteClient({ guest, preview = false }: { guest: Guest;
   function open() {
     if (phase !== 'sealed') return
     setPhase('opening')
-    setTimeout(() => setPhase('open'), 1150)
+    setTimeout(() => setPhase('open'), 1950)
   }
 
   async function respond(action: 'confirm' | 'decline', details?: Record<string, string>) {
@@ -173,6 +177,7 @@ export default function InviteClient({ guest, preview = false }: { guest: Guest;
               <div className="env-name">{guestName || 'Your invitation'}</div>
               <div className="env-tag">The Nanit Reset · 16 Nov</div>
             </div>
+            <div className="env-liner" />
             <div className="env-flap" />
             <div className="env-seal"><Mark cream /></div>
           </div>

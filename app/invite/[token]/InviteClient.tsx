@@ -130,6 +130,7 @@ export default function InviteClient({ guest, preview = false }: { guest: Guest;
   const [fEmail, setFEmail] = useState(guest.email || '')
   const [fInsta, setFInsta] = useState(guest.instagram_handle || '')
   const [fPhone, setFPhone] = useState(guest.phone || '')
+  const [fDiet, setFDiet] = useState(guest.dietary_requirements || '')
 
   function open() {
     if (phase !== 'sealed') return
@@ -155,9 +156,11 @@ export default function InviteClient({ guest, preview = false }: { guest: Guest;
     e.preventDefault()
     if (!fName.trim()) { setError('Please enter your name.'); return }
     if (!fEmail.trim() || !fEmail.includes('@')) { setError('Please enter a valid email.'); return }
+    if (!fPhone.trim()) { setError('Please enter your mobile number.'); return }
     respond('confirm', {
       first_name: fName.trim(), last_name: lName.trim(),
       email: fEmail.trim(), instagram_handle: fInsta.trim(), phone: fPhone.trim(),
+      dietary_requirements: fDiet.trim(),
     })
   }
 
@@ -227,7 +230,8 @@ export default function InviteClient({ guest, preview = false }: { guest: Guest;
                       </div>
                       <input type="email" placeholder="Email" value={fEmail} onChange={e => setFEmail(e.target.value)} autoComplete="email" />
                       <input placeholder="Instagram handle" value={fInsta} onChange={e => setFInsta(e.target.value)} />
-                      <input type="tel" placeholder="Phone number" value={fPhone} onChange={e => setFPhone(e.target.value)} autoComplete="tel" />
+                      <input type="tel" placeholder="Mobile number" value={fPhone} onChange={e => setFPhone(e.target.value)} autoComplete="tel" />
+                      <input placeholder="Dietary requirements (optional)" value={fDiet} onChange={e => setFDiet(e.target.value)} />
                       {error && <p className="rsvp-sub" style={{ color: '#C0392B', opacity: 1, margin: 0 }}>{error}</p>}
                       <div className="actions">
                         <button type="button" className="btn ghost" onClick={() => { setError(null); setReply('idle') }}>Back</button>

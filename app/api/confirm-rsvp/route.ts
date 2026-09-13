@@ -43,6 +43,7 @@ export async function POST(req: NextRequest) {
     if (details.email) update.email = String(details.email).toLowerCase().trim()
     if (details.instagram_handle) update.instagram_handle = String(details.instagram_handle).trim()
     if (details.phone) update.phone = String(details.phone).trim()
+    if (details.dietary_requirements) update.dietary_requirements = String(details.dietary_requirements).trim()
   }
 
   if (Object.keys(update).length) {

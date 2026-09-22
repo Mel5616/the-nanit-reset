@@ -8,6 +8,7 @@ import AdminInviteEmail from './admin-invite'
 import PasswordResetEmail from './password-reset'
 import SpeakerInviteEmail from './speaker-invite'
 import GiveawayConfirmedEmail from './giveaway-confirmed'
+import EoiConfirmedEmail from './eoi-confirmed'
 import SurveyInviteEmail from './survey-invite'
 
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || ''
@@ -30,6 +31,10 @@ export async function renderSpeakerInvite(opts: {
 
 export async function renderGiveawayConfirmed(firstName: string): Promise<string> {
   return render(createElement(GiveawayConfirmedEmail, { firstName }))
+}
+
+export async function renderEoiConfirmed(firstName: string): Promise<string> {
+  return render(createElement(EoiConfirmedEmail, { firstName }))
 }
 
 export async function renderSurveyInvite(opts: { firstName: string; surveyUrl: string; attended: boolean }): Promise<string> {

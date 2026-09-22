@@ -163,6 +163,10 @@ export default function AdminDashboard({
             className="px-4 py-2 rounded-full text-white text-sm border border-white/20 hover:border-white/40">
             ✉️ View invite
           </a>
+          <a href="/save-the-date" target="_blank" rel="noopener noreferrer"
+            className="px-4 py-2 rounded-full text-white text-sm border border-white/20 hover:border-white/40">
+            📅 Save the date
+          </a>
           <a href="/api/admin/export"
             className="px-4 py-2 rounded-full text-white/70 text-sm border border-white/20 hover:border-white/40">
             Export CSV

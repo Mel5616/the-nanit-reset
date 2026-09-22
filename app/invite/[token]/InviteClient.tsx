@@ -17,37 +17,42 @@ const CSS = `
   --x1:clamp(25px,5.8vw,29px); --x2:clamp(15px,3.3vw,17px);
   --x3:clamp(12.5px,2.4vw,13.5px); --x325:clamp(11px,2.2vw,12.5px);
   --ease:cubic-bezier(.22,.61,.36,1);
-  min-height:100vh; margin:0; background:radial-gradient(125% 90% at 50% 8%, #ECE4D8 0%, #E4DCD1 52%, #D9D0C3 100%); color:var(--midnight);
+  position:relative; min-height:100vh; margin:0; background:radial-gradient(125% 90% at 50% 8%, #F0E9DE 0%, #E8E0D4 52%, #DED4C6 100%); color:var(--midnight);
   font-family:var(--text); -webkit-font-smoothing:antialiased;
   display:flex; flex-direction:column; align-items:center; justify-content:center; padding:24px 14px;
 }
 .nrinv *{ box-sizing:border-box; }
+/* soft eucalyptus backdrop, white multiplied away so only the greenery tints the cream */
+.nrinv::before{ content:""; position:absolute; inset:0; z-index:0; pointer-events:none;
+  background:url("/invite-bg.jpg") left bottom / cover no-repeat;
+  mix-blend-mode:multiply; opacity:.5; }
+.nrinv > *{ position:relative; z-index:1; }
 
 /* ---------------- envelope (tap to open) ---------------- */
 .nrinv .scene{ display:flex; flex-direction:column; align-items:center; gap:26px; animation:fadeIn .6s ease; }
-.nrinv .env{ position:relative; width:min(430px,86vw); height:calc(min(430px,86vw)*0.66); cursor:pointer; animation:envIn .8s var(--ease) both; }
+.nrinv .env{ position:relative; width:min(430px,86vw); height:calc(min(430px,86vw)*0.66); cursor:pointer; border-radius:14px; overflow:hidden; box-shadow:0 40px 72px -20px rgba(8,13,32,.62), 0 12px 26px rgba(8,13,32,.28); animation:envIn .8s var(--ease) both; }
 @keyframes envIn{ from{ opacity:0; transform:translateY(20px) scale(.955); } to{ opacity:1; transform:none; } }
 .nrinv .env.opening{ cursor:default; animation:envOut .45s ease .55s both; }
 @keyframes envOut{ from{ opacity:1; } to{ opacity:0; transform:scale(.985); } }
 /* All four envelope flaps drawn as one conic-gradient so the seams render
    identically in every browser (Safari drops filter:drop-shadow on clipped shapes). */
-.nrinv .env-back{ position:absolute; inset:0; border-radius:12px; box-shadow:0 40px 72px -20px rgba(10,16,38,.6), 0 12px 26px rgba(10,16,38,.26);
+.nrinv .env-back{ position:absolute; inset:0;
   background:conic-gradient(from 0deg at 50% 52%,
-    #3C4C6C 0deg 55.5deg,
-    #1E2942 55.5deg 56.2deg,
-    #2B3855 56.2deg 122.4deg,
-    #1E2942 122.4deg 123.1deg,
-    #35425F 123.1deg 237.6deg,
-    #1E2942 237.6deg 238.3deg,
-    #2B3855 238.3deg 304.5deg,
-    #1E2942 304.5deg 305.2deg,
-    #3C4C6C 305.2deg 360deg); }
+    #33405C 0deg 55.5deg,
+    #18223A 55.5deg 56.2deg,
+    #243049 56.2deg 122.4deg,
+    #18223A 122.4deg 123.1deg,
+    #2C3852 123.1deg 237.6deg,
+    #18223A 237.6deg 238.3deg,
+    #243049 238.3deg 304.5deg,
+    #18223A 304.5deg 305.2deg,
+    #33405C 305.2deg 360deg); }
 .nrinv .env-front{ position:absolute; left:0; right:0; bottom:0; height:46%; border-radius:0 0 12px 12px; z-index:4; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:6px; padding-top:24px; transition:opacity .5s ease; pointer-events:none; }
 .nrinv .env-name{ position:relative; z-index:1; font-family:var(--display); font-style:italic; font-weight:300; font-size:clamp(19px,5vw,24px); color:#EFE7DA; padding:0 12px; text-align:center; text-shadow:0 1px 2px rgba(13,22,46,.4); }
 .nrinv .env-tag{ position:relative; z-index:1; font-size:9.5px; letter-spacing:.24em; text-transform:uppercase; color:rgba(239,231,218,.6); }
 /* Static liner revealed as the flap lifts (no fragile double-sided 3D). */
-.nrinv .env-liner{ position:absolute; top:0; left:0; right:0; height:52%; clip-path:polygon(0 12px,12px 0,calc(100% - 12px) 0,100% 12px,50% 100%); background:linear-gradient(180deg,#CBDDEC,#AECADF); z-index:2; }
-.nrinv .env-flap{ position:absolute; top:0; left:0; right:0; height:52%; background:linear-gradient(180deg,#3E4E6E 0%,#384661 62%,#33415C 100%); clip-path:polygon(0 12px,12px 0,calc(100% - 12px) 0,100% 12px,50% 100%); transform-origin:top center; transform:scaleY(1); z-index:5; box-shadow:0 3px 7px rgba(10,17,38,.28); }
+.nrinv .env-liner{ position:absolute; top:0; left:0; right:0; height:52%; clip-path:polygon(0 0,100% 0,50% 100%); background:linear-gradient(180deg,#CBDDEC,#AECADF); z-index:2; }
+.nrinv .env-flap{ position:absolute; top:0; left:0; right:0; height:52%; background:linear-gradient(180deg,#354461 0%,#303D58 62%,#2B3852 100%); clip-path:polygon(0 0,100% 0,50% 100%); transform-origin:top center; transform:scaleY(1); z-index:5; }
 @keyframes flapUp{ from{ transform:scaleY(1); opacity:1; } to{ transform:scaleY(0); opacity:0; } }
 /* paper grain over the whole envelope */
 .nrinv .env-texture{ position:absolute; inset:0; border-radius:12px; z-index:5; pointer-events:none; opacity:.28; mix-blend-mode:soft-light; background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E"); background-size:150px 150px; }

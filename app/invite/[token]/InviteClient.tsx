@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { Guest } from '@/lib/supabase'
+import SvgEnvelope from './SvgEnvelope'
 
 // Nanit A5 invitation, with a Paperless-Post-style tap-to-open envelope.
 // Cotford / Neue Plak are the licensed Nanit fonts (declared in globals.css).
@@ -141,11 +142,6 @@ export default function InviteClient({ guest, preview = false }: { guest: Guest;
   const [fPhone, setFPhone] = useState(guest.phone || '')
   const [fDiet, setFDiet] = useState(guest.dietary_requirements || '')
 
-  function open() {
-    if (phase !== 'sealed') return
-    setPhase('opening')
-    setTimeout(() => setPhase("open"), 1350)
-  }
 
   async function respond(action: 'confirm' | 'decline', details?: Record<string, string>) {
     if (preview) { setReply(action === 'confirm' ? 'confirmed' : 'declined'); return }
@@ -178,21 +174,7 @@ export default function InviteClient({ guest, preview = false }: { guest: Guest;
       <style>{CSS}</style>
 
       {phase !== 'open' ? (
-        <div className="scene">
-          <div className={`env ${phase === 'opening' ? 'opening' : ''}`} onClick={open} role="button" aria-label="Open your invitation">
-            <div className="env-back" />
-            <div className="env-card"><Mark /><span className="ec-word">The Nanit Reset</span></div>
-            <div className="env-front">
-              <div className="env-name">{guestName || 'Your invitation'}</div>
-              <div className="env-tag">The Nanit Reset · 16 Nov</div>
-            </div>
-            <div className="env-liner" />
-            <div className="env-flap" />
-            <div className="env-seal"><Mark cream /></div>
-            <div className="env-paper" />
-          </div>
-          {phase === 'sealed' && <button className="openhint" onClick={open}>Tap to open your invitation</button>}
-        </div>
+        <SvgEnvelope guestName={guestName} onRevealStart={() => setTimeout(() => setPhase('open'), 500)} />
       ) : (
         <>
           <article className="sheet">

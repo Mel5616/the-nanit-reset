@@ -39,7 +39,7 @@ export default function SaveTheDatePage() {
           <h1 style={{ color: '#fff', fontSize: 40, fontWeight: 300, fontFamily: 'Cotford, Georgia, serif', lineHeight: 1.1 }}>Save the date</h1>
           <p style={{ color: '#BDD4E7', fontSize: 16, marginTop: 12, fontFamily: 'Cotford, Georgia, serif' }}>The Nanit Reset · Monday 16 November 2026 · Sydney</p>
           <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: 15, marginTop: 14, lineHeight: 1.6 }}>
-            An intimate, education-led morning with Dr Natalie Barnett. Register your interest below, full details to come.
+            An intimate, education-led morning with Dr Natalie Barnett. A morning just for you, three hours to pause, listen and reset. Register your interest below, full details to come.
           </p>
         </div>
 

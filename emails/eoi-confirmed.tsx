@@ -19,7 +19,7 @@ export default function EoiConfirmedEmail({ firstName }: { firstName: string }) 
               <Text style={{ color: BLUE, fontSize: '14px', margin: '0 0 20px' }}>{EVENT.dateLong} · {EVENT.city}</Text>
               <Text style={{ color: '#333', fontSize: '15px', lineHeight: '1.7', margin: '0 0 14px' }}>Hi {firstName},</Text>
               <Text style={{ color: '#333', fontSize: '15px', lineHeight: '1.7', margin: '0 0 14px' }}>
-                Thank you for registering your interest in {EVENT.name}, an intimate, education-led morning with Dr Natalie Barnett in {EVENT.city}.
+                Thank you for registering your interest in {EVENT.name}, an intimate, education-led morning with Dr Natalie Barnett in {EVENT.city}. This is a morning just for you, three hours to pause, listen and reset.
               </Text>
               <Text style={{ color: '#333', fontSize: '15px', lineHeight: '1.7', margin: '0 0 14px' }}>
                 Please hold {EVENT.dayDate} in your diary. Full details, including the venue and the running order, are to come, and we will be in touch with your formal invitation as places are confirmed.

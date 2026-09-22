@@ -29,19 +29,29 @@ const CSS = `
 @keyframes envIn{ from{ opacity:0; transform:translateY(20px) scale(.955); } to{ opacity:1; transform:none; } }
 .nrinv .env.opening{ cursor:default; animation:envOut .45s ease .55s both; }
 @keyframes envOut{ from{ opacity:1; } to{ opacity:0; transform:scale(.985); } }
-.nrinv .env-back{ position:absolute; inset:0; background:linear-gradient(160deg, #2E3E5E 0%, #273450 55%, #202C46 100%); border-radius:12px; box-shadow:0 40px 72px -20px rgba(10,16,38,.6), 0 12px 26px rgba(10,16,38,.26); }
-/* bottom flap: its two upper edges are the seams running to the lower corners */
-.nrinv .env-fold{ position:absolute; left:0; right:0; bottom:0; height:60%; clip-path:polygon(0 100%,100% 100%,50% 4%); background:linear-gradient(180deg,#38455D 0%,#2E3A50 100%); border-radius:0 0 12px 12px; z-index:3; filter:drop-shadow(0 -2px 3px rgba(10,17,38,.55)); }
+/* All four envelope flaps drawn as one conic-gradient so the seams render
+   identically in every browser (Safari drops filter:drop-shadow on clipped shapes). */
+.nrinv .env-back{ position:absolute; inset:0; border-radius:12px; box-shadow:0 40px 72px -20px rgba(10,16,38,.6), 0 12px 26px rgba(10,16,38,.26);
+  background:conic-gradient(from 0deg at 50% 52%,
+    #3C4C6C 0deg 55.5deg,
+    #1E2942 55.5deg 56.2deg,
+    #2B3855 56.2deg 122.4deg,
+    #1E2942 122.4deg 123.1deg,
+    #35425F 123.1deg 237.6deg,
+    #1E2942 237.6deg 238.3deg,
+    #2B3855 238.3deg 304.5deg,
+    #1E2942 304.5deg 305.2deg,
+    #3C4C6C 305.2deg 360deg); }
 .nrinv .env-front{ position:absolute; left:0; right:0; bottom:0; height:46%; border-radius:0 0 12px 12px; z-index:4; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:6px; padding-top:24px; transition:opacity .5s ease; pointer-events:none; }
 .nrinv .env-name{ position:relative; z-index:1; font-family:var(--display); font-style:italic; font-weight:300; font-size:clamp(19px,5vw,24px); color:#EFE7DA; padding:0 12px; text-align:center; text-shadow:0 1px 2px rgba(13,22,46,.4); }
 .nrinv .env-tag{ position:relative; z-index:1; font-size:9.5px; letter-spacing:.24em; text-transform:uppercase; color:rgba(239,231,218,.6); }
 /* Static liner revealed as the flap lifts (no fragile double-sided 3D). */
-.nrinv .env-liner{ position:absolute; top:0; left:0; right:0; height:56%; clip-path:polygon(0 12px,12px 0,calc(100% - 12px) 0,100% 12px,50% 100%); background:linear-gradient(180deg,#CBDDEC,#AECADF); z-index:2; }
-.nrinv .env-flap{ position:absolute; top:0; left:0; right:0; height:56%; background:linear-gradient(180deg,#43506B 0%,#37445D 74%,#313E55 100%); clip-path:polygon(0 12px,12px 0,calc(100% - 12px) 0,100% 12px,50% 100%); transform-origin:top center; transform:scaleY(1); z-index:5; filter:drop-shadow(0 6px 9px rgba(10,17,38,.45)); }
+.nrinv .env-liner{ position:absolute; top:0; left:0; right:0; height:52%; clip-path:polygon(0 12px,12px 0,calc(100% - 12px) 0,100% 12px,50% 100%); background:linear-gradient(180deg,#CBDDEC,#AECADF); z-index:2; }
+.nrinv .env-flap{ position:absolute; top:0; left:0; right:0; height:52%; background:linear-gradient(180deg,#3E4E6E 0%,#384661 62%,#33415C 100%); clip-path:polygon(0 12px,12px 0,calc(100% - 12px) 0,100% 12px,50% 100%); transform-origin:top center; transform:scaleY(1); z-index:5; box-shadow:0 3px 7px rgba(10,17,38,.28); }
 @keyframes flapUp{ from{ transform:scaleY(1); opacity:1; } to{ transform:scaleY(0); opacity:0; } }
 /* paper grain over the whole envelope */
 .nrinv .env-texture{ position:absolute; inset:0; border-radius:12px; z-index:5; pointer-events:none; opacity:.28; mix-blend-mode:soft-light; background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E"); background-size:150px 150px; }
-.nrinv .env-seal{ position:absolute; top:calc(50% - 33px); left:50%; transform:translateX(-50%); width:66px; height:66px; background:url("/wax-seal.png") center/contain no-repeat; z-index:6; filter:drop-shadow(0 4px 7px rgba(13,22,46,.4)); transition:opacity .3s ease, transform .5s var(--ease); }
+.nrinv .env-seal{ position:absolute; top:calc(52% - 33px); left:50%; transform:translateX(-50%); width:66px; height:66px; background:url("/wax-seal.png") center/contain no-repeat; z-index:6; filter:drop-shadow(0 4px 7px rgba(13,22,46,.4)); transition:opacity .3s ease, transform .5s var(--ease); }
 .nrinv .env.opening .env-flap{ animation:flapUp .5s var(--ease) forwards; }
 .nrinv .env.opening .env-seal{ animation:sealOut .4s ease forwards; }
 @keyframes sealOut{ to{ opacity:0; transform:translateX(-50%) translateY(-7px) scale(.7); } }
@@ -176,7 +186,6 @@ export default function InviteClient({ guest, preview = false }: { guest: Guest;
           <div className={`env ${phase === 'opening' ? 'opening' : ''}`} onClick={open} role="button" aria-label="Open your invitation">
             <div className="env-back" />
             <div className="env-liner" />
-            <div className="env-fold" />
             <div className="env-front">
               <div className="env-name">{guestName || 'Your invitation'}</div>
               <div className="env-tag">The Nanit Reset · 16 Nov</div>

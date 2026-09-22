@@ -30,15 +30,14 @@ const CSS = `
 .nrinv .env.opening{ cursor:default; animation:envOut .45s ease .55s both; }
 @keyframes envOut{ from{ opacity:1; } to{ opacity:0; transform:scale(.985); } }
 .nrinv .env-back{ position:absolute; inset:0; background:linear-gradient(180deg,#2C4874,#22385F); border-radius:11px; box-shadow:0 34px 64px -18px rgba(17,29,65,.46), 0 10px 22px rgba(17,29,65,.20); }
-.nrinv .env-front{ position:absolute; left:0; right:0; bottom:0; height:55%; background-color:var(--midnight); background-image:${SQUIRCLE('0.06')}; background-size:62px 62px; background-position:center; border-radius:0 0 11px 11px; box-shadow:inset 0 15px 24px -8px rgba(17,29,65,.55); z-index:3; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:6px; padding-top:22px; transition:opacity .5s ease; }
+.nrinv .env-front{ position:absolute; left:0; right:0; bottom:0; height:55%; background-color:var(--midnight); border-radius:0 0 11px 11px; box-shadow:inset 0 15px 24px -8px rgba(17,29,65,.55); z-index:3; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:6px; padding-top:22px; transition:opacity .5s ease; }
 .nrinv .env-name{ position:relative; z-index:1; font-family:var(--display); font-style:italic; font-weight:300; font-size:clamp(19px,5vw,24px); color:#EFE7DA; padding:0 12px; text-align:center; text-shadow:0 1px 2px rgba(17,29,65,.35); }
 .nrinv .env-tag{ position:relative; z-index:1; font-size:9.5px; letter-spacing:.24em; text-transform:uppercase; color:rgba(239,231,218,.62); }
 /* Static liner revealed as the flap lifts (no fragile double-sided 3D). */
 .nrinv .env-liner{ position:absolute; top:0; left:0; right:0; height:56%; clip-path:polygon(0 0,100% 0,50% 100%); background:linear-gradient(180deg,#CBDDEC,#AECADF); z-index:4; }
 .nrinv .env-flap{ position:absolute; top:0; left:0; right:0; height:56%; background:linear-gradient(180deg,#38598F,#2A4880); clip-path:polygon(0 0,100% 0,50% 100%); transform-origin:top center; transform:scaleY(1); z-index:5; box-shadow:0 6px 10px -4px rgba(17,29,65,.35); }
 @keyframes flapUp{ from{ transform:scaleY(1); opacity:1; } to{ transform:scaleY(0); opacity:0; } }
-.nrinv .env-seal{ position:absolute; top:calc(48% - 22px); left:50%; transform:translateX(-50%); width:44px; height:44px; border-radius:50%; background:radial-gradient(circle at 34% 28%, #86A9BC 0%, #6691A8 55%, #547E96 100%); display:flex; align-items:center; justify-content:center; z-index:6; box-shadow:0 4px 10px rgba(17,29,65,.4), inset 0 1px 2px rgba(255,255,255,.4), inset 0 -2px 4px rgba(17,29,65,.35); transition:opacity .3s ease, transform .5s var(--ease); }
-.nrinv .env-seal svg{ width:22px; height:22px; filter:drop-shadow(0 1px 1px rgba(17,29,65,.3)); }
+.nrinv .env-seal{ position:absolute; top:calc(48% - 34px); left:50%; transform:translateX(-50%); width:68px; height:68px; background:url("/wax-seal.png") center/contain no-repeat; z-index:6; filter:drop-shadow(0 4px 8px rgba(17,29,65,.35)); transition:opacity .3s ease, transform .5s var(--ease); }
 .nrinv .env.opening .env-flap{ animation:flapUp .5s var(--ease) forwards; }
 .nrinv .env.opening .env-seal{ animation:sealOut .4s ease forwards; }
 @keyframes sealOut{ to{ opacity:0; transform:translateX(-50%) translateY(-7px) scale(.7); } }
@@ -178,7 +177,7 @@ export default function InviteClient({ guest, preview = false }: { guest: Guest;
             </div>
             <div className="env-liner" />
             <div className="env-flap" />
-            <div className="env-seal"><Mark cream /></div>
+            <div className="env-seal" />
           </div>
           {phase === 'sealed' && <button className="openhint" onClick={open}>Tap to open your invitation</button>}
         </div>

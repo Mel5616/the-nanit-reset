@@ -30,18 +30,20 @@ const CSS = `
 .nrinv .env.opening{ cursor:default; animation:envGone .55s ease 1.2s both; }
 @keyframes envGone{ from{ opacity:1; } to{ opacity:0; transform:translateY(16px) scale(.99); } }
 
-/* navy envelope, Paperless-Post-style 3D open */
-.nrinv .env-back{ position:absolute; inset:0; background:linear-gradient(180deg,#2C4874,#22385F); border-radius:11px; box-shadow:0 34px 64px -18px rgba(17,29,65,.46), 0 10px 22px rgba(17,29,65,.20); }
-.nrinv .env-card{ position:absolute; left:7%; right:7%; top:46%; height:66%; background:linear-gradient(180deg,#FCF9F4,#F2EADF); border-radius:6px; box-shadow:0 5px 16px rgba(17,29,65,.20); z-index:2; display:flex; align-items:flex-start; justify-content:center; padding-top:14px; }
-.nrinv .ec-word{ font-family:var(--display); font-size:18px; letter-spacing:-.01em; color:var(--midnight); opacity:.9; }
-.nrinv .env-front{ position:absolute; left:0; right:0; bottom:0; height:55%; background-color:var(--midnight); background-image:${SQUIRCLE('0.06')}; background-size:62px 62px; background-position:center; border-radius:0 0 11px 11px; box-shadow:inset 0 15px 24px -8px rgba(17,29,65,.55); z-index:3; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:6px; padding-top:22px; transition:opacity .4s ease; }
-.nrinv .env-name{ font-family:var(--display); font-style:italic; font-weight:300; font-size:clamp(19px,5vw,24px); color:#EFE7DA; padding:0 12px; text-align:center; text-shadow:0 1px 2px rgba(17,29,65,.35); }
-.nrinv .env-tag{ font-size:9.5px; letter-spacing:.24em; text-transform:uppercase; color:rgba(239,231,218,.6); }
-.nrinv .env-flap{ position:absolute; top:0; left:0; right:0; height:56%; transform-origin:top center; transform:rotateX(0deg); transition:transform .85s var(--ease); transform-style:preserve-3d; z-index:5; }
-.nrinv .fface{ position:absolute; inset:0; clip-path:polygon(0 0,100% 0,50% 100%); backface-visibility:hidden; }
-.nrinv .fout{ background:linear-gradient(180deg,#35568D,#2A4880); box-shadow:0 5px 8px -3px rgba(17,29,65,.32); }
-.nrinv .fin{ background:linear-gradient(180deg,#CFDFED,#B2CCE0); transform:rotateX(180deg); }
-.nrinv .env-seal{ position:absolute; top:calc(48% - 21px); left:50%; transform:translateX(-50%); width:42px; height:42px; border-radius:50%; background:radial-gradient(circle at 34% 28%, #86A9BC 0%, #6691A8 55%, #547E96 100%); display:flex; align-items:center; justify-content:center; z-index:6; box-shadow:0 4px 10px rgba(17,29,65,.4), inset 0 1px 2px rgba(255,255,255,.4), inset 0 -2px 4px rgba(17,29,65,.35); transition:opacity .3s ease, transform .5s var(--ease); }
+/* navy envelope, Paperless-Post-style 3D open — refined paper, no flat grid */
+.nrinv .env-paper{ position:absolute; inset:0; z-index:7; pointer-events:none; border-radius:11px; opacity:.5; mix-blend-mode:soft-light; background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E"); }
+.nrinv .env-back{ position:absolute; inset:0; background:linear-gradient(160deg,#31517F 0%,#294672 45%,#1F3559 100%); border-radius:11px; box-shadow:0 42px 70px -22px rgba(17,29,65,.55), 0 14px 30px rgba(17,29,65,.24), inset 0 1px 0 rgba(255,255,255,.07), inset 0 0 0 1px rgba(17,29,65,.35); }
+.nrinv .env-card{ position:absolute; left:7%; right:7%; top:46%; height:66%; background:linear-gradient(178deg,#FCFAF5,#F1E9DE); border-radius:5px; box-shadow:0 6px 18px rgba(17,29,65,.22), inset 0 0 0 1px rgba(45,73,119,.10); z-index:2; display:flex; flex-direction:column; align-items:center; gap:7px; padding-top:15px; }
+.nrinv .env-card .mark{ width:19px; height:19px; }
+.nrinv .ec-word{ font-family:var(--display); font-size:14px; letter-spacing:.02em; color:var(--midnight); opacity:.8; }
+.nrinv .env-front{ position:absolute; left:0; right:0; bottom:0; height:55%; background:linear-gradient(180deg,#2F4B7A 0%,#294672 55%,#213A61 100%); border-radius:0 0 11px 11px; box-shadow:inset 0 1px 0 rgba(255,255,255,.08), inset 0 18px 30px -14px rgba(17,29,65,.55); z-index:3; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:7px; padding-top:22px; transition:opacity .4s ease; }
+.nrinv .env-front::before{ content:""; position:absolute; top:0; left:8%; right:8%; height:1px; background:linear-gradient(90deg,transparent,rgba(255,255,255,.14),transparent); }
+.nrinv .env-name{ font-family:var(--display); font-style:italic; font-weight:300; font-size:clamp(20px,5vw,25px); color:#F0E8DB; padding:0 12px; text-align:center; text-shadow:0 1px 3px rgba(17,29,65,.4); }
+.nrinv .env-tag{ font-size:9px; letter-spacing:.28em; text-transform:uppercase; color:rgba(240,232,219,.55); }
+.nrinv .env-liner{ position:absolute; top:0; left:0; right:0; height:56%; clip-path:polygon(0 0,100% 0,50% 100%); background:linear-gradient(180deg,#D6E4F0 0%,#BCD2E3 60%,#AAC7DB 100%); box-shadow:inset 0 0 26px rgba(45,73,119,.1); z-index:4; }
+.nrinv .env-flap{ position:absolute; top:0; left:0; right:0; height:56%; background:linear-gradient(180deg,#39598E 0%,#2C4A80 70%,#274574 100%); clip-path:polygon(0 0,100% 0,50% 100%); transform-origin:top center; transform:rotateX(0deg); transition:transform .9s var(--ease); backface-visibility:hidden; z-index:5; box-shadow:0 6px 9px -3px rgba(17,29,65,.34); }
+.nrinv .env-flap::after{ content:""; position:absolute; inset:0; clip-path:polygon(0 0,100% 0,50% 100%); background:linear-gradient(180deg,rgba(255,255,255,.1),transparent 42%); }
+.nrinv .env-seal{ position:absolute; top:calc(48% - 21px); left:50%; transform:translateX(-50%); width:42px; height:42px; border-radius:50%; background:radial-gradient(circle at 34% 28%, #8FB0C2 0%, #6C93AA 52%, #517A93 100%); display:flex; align-items:center; justify-content:center; z-index:6; box-shadow:0 5px 12px rgba(17,29,65,.42), inset 0 1px 2px rgba(255,255,255,.45), inset 0 -3px 5px rgba(17,29,65,.34); transition:opacity .3s ease, transform .5s var(--ease); }
 .nrinv .env-seal svg{ width:21px; height:21px; filter:drop-shadow(0 1px 1px rgba(17,29,65,.3)); }
 .nrinv .env.opening .env-flap{ transform:rotateX(-158deg); }
 .nrinv .env.opening .env-front{ opacity:0; }
@@ -178,13 +180,15 @@ export default function InviteClient({ guest, preview = false }: { guest: Guest;
         <div className="scene">
           <div className={`env ${phase === 'opening' ? 'opening' : ''}`} onClick={open} role="button" aria-label="Open your invitation">
             <div className="env-back" />
-            <div className="env-card"><span className="ec-word">The Nanit Reset</span></div>
+            <div className="env-card"><Mark /><span className="ec-word">The Nanit Reset</span></div>
             <div className="env-front">
               <div className="env-name">{guestName || 'Your invitation'}</div>
               <div className="env-tag">The Nanit Reset · 16 Nov</div>
             </div>
-            <div className="env-flap"><div className="fface fout" /><div className="fface fin" /></div>
+            <div className="env-liner" />
+            <div className="env-flap" />
             <div className="env-seal"><Mark cream /></div>
+            <div className="env-paper" />
           </div>
           {phase === 'sealed' && <button className="openhint" onClick={open}>Tap to open your invitation</button>}
         </div>

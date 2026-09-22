@@ -30,7 +30,7 @@ const CSS = `
 
 /* ---------------- envelope (tap to open) ---------------- */
 .nrinv .scene{ display:flex; flex-direction:column; align-items:center; gap:26px; animation:fadeIn .6s ease; }
-.nrinv .env{ position:relative; width:min(430px,86vw); height:calc(min(430px,86vw)*0.66); cursor:pointer; border-radius:14px; overflow:hidden; box-shadow:0 40px 72px -20px rgba(8,13,32,.62), 0 12px 26px rgba(8,13,32,.28); animation:envIn .8s var(--ease) both; }
+.nrinv .env{ position:relative; width:min(560px,88vw); height:calc(min(560px,88vw)*0.66); cursor:pointer; border-radius:14px; overflow:hidden; box-shadow:0 40px 72px -20px rgba(8,13,32,.62), 0 12px 26px rgba(8,13,32,.28); animation:envIn .8s var(--ease) both; }
 @keyframes envIn{ from{ opacity:0; transform:translateY(20px) scale(.955); } to{ opacity:1; transform:none; } }
 .nrinv .env.opening{ cursor:default; animation:envOut .45s ease .55s both; }
 @keyframes envOut{ from{ opacity:1; } to{ opacity:0; transform:scale(.985); } }
@@ -56,7 +56,7 @@ const CSS = `
 @keyframes flapUp{ from{ transform:scaleY(1); opacity:1; } to{ transform:scaleY(0); opacity:0; } }
 /* paper grain over the whole envelope */
 .nrinv .env-texture{ position:absolute; inset:0; border-radius:12px; z-index:5; pointer-events:none; opacity:.28; mix-blend-mode:soft-light; background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E"); background-size:150px 150px; }
-.nrinv .env-seal{ position:absolute; top:calc(52% - 33px); left:50%; transform:translateX(-50%); width:66px; height:66px; background:url("/wax-seal.png") center/contain no-repeat; z-index:6; filter:drop-shadow(0 4px 7px rgba(13,22,46,.4)); transition:opacity .3s ease, transform .5s var(--ease); }
+.nrinv .env-seal{ position:absolute; top:calc(52% - 39px); left:50%; transform:translateX(-50%); width:78px; height:78px; background:url("/wax-seal.png") center/contain no-repeat; z-index:6; filter:drop-shadow(0 4px 7px rgba(13,22,46,.4)); transition:opacity .3s ease, transform .5s var(--ease); }
 .nrinv .env.opening .env-flap{ animation:flapUp .5s var(--ease) forwards; }
 .nrinv .env.opening .env-seal{ animation:sealOut .4s ease forwards; }
 @keyframes sealOut{ to{ opacity:0; transform:translateX(-50%) translateY(-7px) scale(.7); } }

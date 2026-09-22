@@ -199,12 +199,12 @@ export default function InviteClient({ guest, preview = false }: { guest: Guest;
                 <p className="host-role">PhD, Vice President of Clinical Research at Nanit</p>
               </section>
               <section className="copy">
-                <p>A morning for you. Meet the Nanit range and see what it can tell you about your baby&apos;s sleep, settle into a guided breathwork session, and stay for lunch with other parents. And there are puppies to cuddle, because a morning with puppies is the ultimate reset.</p>
+                <p>A slow Sydney morning, just for you. Get to know Nanit and see how it can bring more clarity and calm to your parenting, with real insight into your baby&apos;s sleep. Sit down one-on-one with Dr Natalie Barnett for sleep advice tailored to your family. Reset with a guided breathwork session, share a nourishing lunch with parents on the same path, and finish with puppy cuddles, because nothing slows a morning down quite like a lap full of puppies.</p>
               </section>
               <section className="details">
                 <p className="det-date">Monday 16 November</p>
                 <p className="det-line">11am to 2pm, doors open at 10:30am</p>
-                <p className="det-line">The Grounds of Alexandria</p>
+                <p className="det-line">The Atrium, The Grounds</p>
                 <p className="det-line det-addr">7a / 2 Huntley Street, Alexandria NSW 2015</p>
               </section>
 

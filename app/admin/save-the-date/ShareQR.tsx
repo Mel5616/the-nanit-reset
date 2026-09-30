@@ -48,7 +48,7 @@ export default function ShareQR({ url }: { url: string }) {
           </div>
           <div className="px-8 py-8 flex flex-col items-center">
             {svg
-              ? <div style={{ width: 240, height: 240 }} dangerouslySetInnerHTML={{ __html: svg }} />
+              ? <div className="qrbox" style={{ width: 240, height: 240 }} dangerouslySetInnerHTML={{ __html: svg }} />
               : <div style={{ width: 240, height: 240, background: '#f2ece3', borderRadius: 12 }} />}
             <p className="text-xs mt-6 break-all" style={{ color: BLUE }}>{url}</p>
           </div>
@@ -64,7 +64,7 @@ export default function ShareQR({ url }: { url: string }) {
         </div>
         <p className="text-xs text-gray-400 text-center mt-4 no-print">Add the QR to a story, a printed card or a DM. It links to the expression-of-interest page.</p>
       </div>
-      <style>{`@media print { .no-print { display:none !important } body { background:#fff } }`}</style>
+      <style>{`.qrbox svg{ width:100%; height:100%; display:block } @media print { .no-print { display:none !important } body { background:#fff } }`}</style>
     </div>
   )
 }

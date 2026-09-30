@@ -155,10 +155,6 @@ export default function AdminDashboard({
             className="px-4 py-2 rounded-full text-white text-sm border border-white/20 hover:border-white/40">
             🚪 Door
           </Link>
-          <Link href="/admin/badges"
-            className="px-4 py-2 rounded-full text-white text-sm border border-white/20 hover:border-white/40">
-            🏷 Badges
-          </Link>
           <a href="/invite/preview" target="_blank" rel="noopener noreferrer"
             className="px-4 py-2 rounded-full text-white text-sm border border-white/20 hover:border-white/40">
             ✉️ View invite

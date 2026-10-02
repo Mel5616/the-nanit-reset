@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getServiceClient } from '@/lib/supabase'
-import { newToken } from '@/lib/auth'
 import { Resend } from 'resend'
 import { renderEoiConfirmed } from '@/emails/render-helpers'
 import { EVENT } from '@/lib/event'
@@ -37,7 +36,6 @@ export async function POST(req: NextRequest) {
       company: b.company ? String(b.company).trim() : null,
       audience_type: audience,
       status: 'waitlist',
-      invite_token: newToken(),
       added_by: 'eoi',
       checked_in: false,
       notes: b.notes ? String(b.notes).trim().slice(0, 500) : null,

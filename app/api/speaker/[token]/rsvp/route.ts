@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getServiceClient } from '@/lib/supabase'
-import { newToken } from '@/lib/auth'
 
 export async function GET(req: NextRequest, { params }: { params: Promise<{ token: string }> }) {
   const { token } = await params
@@ -31,7 +30,6 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ toke
         email,
         audience_type: 'celebrity',
         status: 'confirmed',
-        invite_token: newToken(),
         added_by: 'speaker',
         checked_in: false,
         speaker_session: true,

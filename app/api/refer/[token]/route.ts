@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getServiceClient } from '@/lib/supabase'
-import { newToken } from '@/lib/auth'
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 const AUDIENCES = ['influencer', 'media', 'wellness', 'hcp', 'retail', 'celebrity']
@@ -46,7 +45,6 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ tok
     email,
     audience_type: audience,
     status: 'waitlist',
-    invite_token: newToken(),
     added_by: `referral:${token}`,
     company: b.company || null,
     instagram_handle: b.instagram_handle || null,

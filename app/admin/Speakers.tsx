@@ -178,6 +178,7 @@ export default function Speakers() {
                   <div className="flex gap-2 flex-wrap justify-end">
                     <button onClick={() => copyLink(sp.public_token)} className="text-xs px-3 py-1.5 rounded-lg border border-gray-200 text-gray-500 hover:border-gray-300">Copy link</button>
                     <a href={`/speaker/${sp.public_token}`} target="_blank" rel="noreferrer" className="text-xs px-3 py-1.5 rounded-lg border border-gray-200 text-gray-500 hover:border-gray-300">Preview</a>
+                    <a href={`/api/admin/speaker-letter/${sp.id}`} target="_blank" rel="noreferrer" className="text-xs px-3 py-1.5 rounded-lg border border-gray-200 text-gray-500 hover:border-gray-300">Letter</a>
                     {sp.email && (
                       <button onClick={() => sendInvite(sp.id)} disabled={busy === sp.id} className="text-xs px-3 py-1.5 rounded-lg text-white disabled:opacity-50" style={{ background: BLUE }}>
                         {busy === sp.id ? '…' : sp.email_sent_at ? 'Resend invite' : 'Send invite'}

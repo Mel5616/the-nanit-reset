@@ -67,7 +67,7 @@ export default function ReferPage({ params }: { params: Promise<{ token: string 
     <main style={{ minHeight: '100vh', background: NAVY, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '40px 20px' }}>
       <div style={{ width: '100%', maxWidth: 460 }}>
         <div style={{ textAlign: 'center', marginBottom: 26 }}>
-          <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: 11, letterSpacing: 3, textTransform: 'uppercase', marginBottom: 12 }}>The Nanit Reset · 15 November 2026</p>
+          <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: 11, letterSpacing: 3, textTransform: 'uppercase', marginBottom: 12 }}>The Nanit Reset · 16 November 2026</p>
           <h1 style={{ color: '#fff', fontSize: 32, fontWeight: 300, fontFamily: 'Cotford, Georgia, serif', lineHeight: 1.2 }}>You&apos;re invited</h1>
           <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: 15, marginTop: 12, lineHeight: 1.6 }}>
             {referrer ? `${referrer} thought you'd love to join us.` : 'Register your interest below.'} Leave your details and our team will be in touch.

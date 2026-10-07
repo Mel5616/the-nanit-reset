@@ -109,8 +109,8 @@ export default function SpeakerPortal({ params }: { params: Promise<{ token: str
             <div style={{ fontSize: 9, letterSpacing: 2, color: '#aaa', textTransform: 'uppercase', marginTop: 4, fontFamily: 'NeuePlak, sans-serif' }}>Nanit in partnership with Coolkidz Australia</div>
           </div>
           <div style={{ textAlign: 'right' }}>
-            <div style={{ fontSize: 12, color: '#666' }}>Saturday, 15 November 2026</div>
-            <div style={{ fontSize: 12, color: '#666', marginTop: 2 }}>10:00am – 1:00pm</div>
+            <div style={{ fontSize: 12, color: '#666' }}>Monday, 16 November 2026</div>
+            <div style={{ fontSize: 12, color: '#666', marginTop: 2 }}>11:00am – 2:00pm · doors 10:30am</div>
             <div style={{ fontSize: 12, color: '#666', marginTop: 2 }}>Sydney, NSW</div>
           </div>
         </div>
@@ -129,8 +129,8 @@ export default function SpeakerPortal({ params }: { params: Promise<{ token: str
           <p style={para}>Dear {displayName},</p>
           <p style={para}>
             We would love to invite you to be involved as {sp.involved_as || 'a featured speaker'} at
-            {' '}<strong>The Nanit Reset</strong>, taking place on <strong>Saturday 15 November 2026</strong>,
-            10:00am – 1:00pm, in Sydney.
+            {' '}<strong>The Nanit Reset</strong>, taking place on <strong>Monday 16 November 2026</strong>,
+            11:00am – 2:00pm (doors open 10:30am), in Sydney.
           </p>
           {sp.personalized_why?.split('\n\n').filter(Boolean).map((p, i) => (
             <p key={i} style={para} dangerouslySetInnerHTML={{ __html: md(p.trim()) }} />
@@ -190,7 +190,7 @@ export default function SpeakerPortal({ params }: { params: Promise<{ token: str
         <div style={{ maxWidth: 760, margin: '16px auto 0', background: '#EAF3EC', border: '1px solid #A9DFBF', borderRadius: 16, padding: '22px 32px', textAlign: 'center' }} className="no-print">
           <div style={{ fontSize: 26, marginBottom: 6 }}>✓</div>
           <div style={{ fontSize: 16, fontWeight: 600, color: '#2F6B42', marginBottom: 4 }}>You&apos;re confirmed.</div>
-          <div style={{ fontSize: 13, color: '#555', marginBottom: 16 }}>We&apos;ll be in touch with full briefing details ahead of 15 November.</div>
+          <div style={{ fontSize: 13, color: '#555', marginBottom: 16 }}>We&apos;ll be in touch with full briefing details ahead of 16 November.</div>
           <Link href={`/speaker/${token}/agreement`} style={{ display: 'inline-block', background: NAVY, color: '#fff', textDecoration: 'none', padding: '12px 26px', borderRadius: 999, fontSize: 14, fontWeight: 600 }}>
             {sp.agreement_status === 'fully_executed' ? 'View your agreement' : 'Review & sign your agreement'}
           </Link>

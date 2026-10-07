@@ -30,7 +30,7 @@ export default function GiveawayPage() {
         <div style={{ textAlign: 'center', marginBottom: 28 }}>
           <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: 11, letterSpacing: 3, textTransform: 'uppercase', marginBottom: 12 }}>The Nanit Reset</p>
           <h1 style={{ color: '#fff', fontSize: 34, fontWeight: 300, fontFamily: 'Cotford, Georgia, serif', lineHeight: 1.2 }}>Win a Nanit bundle</h1>
-          <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: 15, marginTop: 12, lineHeight: 1.6 }}>Enter below. The winner will be drawn around our event on 15 November 2026.</p>
+          <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: 15, marginTop: 12, lineHeight: 1.6 }}>Enter below. The winner will be drawn around our event on 16 November 2026.</p>
         </div>
 
         {state === 'done' ? (

@@ -149,13 +149,13 @@ p strong{color:${NAVY}}
 
     <p style="margin-top:20px">We genuinely believe <em>${EVENT.name}</em> has the opportunity to become a meaningful morning for Australian parents, and we would be honoured to have you involved. We'd love the chance to discuss it further and explore whether it feels like the right fit.</p>
     <p>Warm regards,</p>
-    <p class="sig">${EVENT.signerName}</p>
-    <p style="color:#666;margin-top:-8px">${EVENT.signerRole}</p>
+    <p class="sig">Jane Edmonds</p>
+    <p style="color:#666;margin-top:-8px">Partnerships &amp; Affiliate Manager</p>
   </div>
 
   <div class="footer">
     <div class="footer-contact">
-      ${EVENT.contactEmail}<span>|</span>nanit.com.au<span>|</span>@nanit.au<span>|</span>coolkidz.com.au
+      0429 276 523<span>|</span>jane@coolkidz.com.au<span>|</span>nanit.com.au<span>|</span>@nanit.au<span>|</span>coolkidz.com.au
     </div>
   </div>
 </div>

@@ -111,6 +111,7 @@ export default function SpeakerPortal({ params }: { params: Promise<{ token: str
           <div style={{ textAlign: 'right' }}>
             <div style={{ fontSize: 12, color: '#666' }}>Monday, 16 November 2026</div>
             <div style={{ fontSize: 12, color: '#666', marginTop: 2 }}>11:00am – 2:00pm · doors 10:30am</div>
+            <div style={{ fontSize: 12, color: '#666', marginTop: 2 }}>The Atrium, The Grounds of Alexandria</div>
             <div style={{ fontSize: 12, color: '#666', marginTop: 2 }}>Sydney, NSW</div>
           </div>
         </div>
@@ -130,7 +131,7 @@ export default function SpeakerPortal({ params }: { params: Promise<{ token: str
           <p style={para}>
             We would love to invite you to be involved as {sp.involved_as || 'a featured speaker'} at
             {' '}<strong>The Nanit Reset</strong>, taking place on <strong>Monday 16 November 2026</strong>,
-            11:00am – 2:00pm (doors open 10:30am), in Sydney.
+            11:00am – 2:00pm (doors open 10:30am), at The Atrium, The Grounds of Alexandria, Sydney.
           </p>
           {sp.personalized_why?.split('\n\n').filter(Boolean).map((p, i) => (
             <p key={i} style={para} dangerouslySetInnerHTML={{ __html: md(p.trim()) }} />

@@ -101,7 +101,7 @@ export default function AgreementPage({ params }: { params: Promise<{ token: str
           <p style={{ fontSize: 13.5, lineHeight: 1.75, color: '#333', marginBottom: 12 }}>
             This Agreement is made between <strong>Coolkidz Australia</strong> (the &quot;Organiser&quot;) and
             {' '}<strong>{displayName}</strong>{a.organization ? `, ${a.organization}` : ''} (the &quot;Speaker&quot;)
-            in relation to <strong>The Nanit Reset</strong>, taking place on <strong>Monday, 16 November 2026</strong> in Sydney, NSW.
+            in relation to <strong>The Nanit Reset</strong>, taking place on <strong>Monday, 16 November 2026</strong> at The Atrium, The Grounds of Alexandria, Sydney, NSW.
           </p>
 
           {a.agreement_body && renderClauses(a.agreement_body)}
